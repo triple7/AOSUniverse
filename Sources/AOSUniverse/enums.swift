@@ -32,13 +32,12 @@ public enum AOSUniverseObject:String, Identifiable, CaseIterable {
         return self.rawValue.lowercased()
     }
     
-    var directoryUrl:URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(self.rawValue)
+    func directoryUrl(_ assetType: AssetType)->URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathExtension(assetType.id).appendingPathExtension(self.id)
     }
 }
 
-
-public enum AssetType:String, Identifiable {
+public enum AssetType:String, Identifiable, CaseIterable {
     case model
     case image
     case fits
@@ -61,3 +60,4 @@ public enum AssetType:String, Identifiable {
         }
     }
 }
+

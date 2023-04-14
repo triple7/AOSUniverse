@@ -26,6 +26,10 @@ private(set) var totalBytes: Int64 = 0
         self.currentBytes = currentBytes
         self.totalBytes = totalBytes
     }
+
+    public mutating func removeAsset( at index: Int) {
+        self.assets.remove(at: index)
+    }
     
     subscript(assetId: Asset.ID) -> Asset? {
         get {
@@ -75,6 +79,20 @@ extension Asset {
         URL.documentsDirectory
             .appending(path: assetType.id).appending(path: id).appendingPathExtension(assetType.media)
     }
+    
+    func fileExists()->Bool {
+        return FileManager.default.fileExists(atPath: self.fileURL.path)
+    }
+
+    func getLastModified()->Date {
+        do {
+            let attr = try FileManager.default.attributesOfItem(atPath: fileURL.path)
+            return attr[FileAttributeKey.modificationDate] as! Date
+        } catch let error {
+            assertionFailure(error.localizedDescription)
+        }
+        return Date()
+}
     
 }
     
