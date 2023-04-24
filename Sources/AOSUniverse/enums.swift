@@ -9,24 +9,24 @@ import Foundation
 
 public typealias AOSType = AOSUniverseObject
 
-public enum AOSUniverseObject:String, Decodable, CaseIterable {
+public enum AOSUniverseObject:String, Codable, CaseIterable {
     case CATS
     case MAST
     case NGC
     case TESS
-    case asteroid
-    case blackHole
-    case comet
-    case constellation
-    case exoplanet
-    case faststar
-    case kylonova
-    case messier
-    case naturalSat
-    case planet
-    case satellite
-    case supernova
-    case tidaldisruption
+    case Asteroid
+    case BlackHole
+    case Comet
+    case Constellation
+    case Exoplanet
+    case Faststar
+    case Kylonova
+    case Messier
+    case NaturalSat
+    case Planet
+    case Satellite
+    case Supernova
+    case Tidaldisruption
     
     public var id:String {
         return self.rawValue.lowercased()
