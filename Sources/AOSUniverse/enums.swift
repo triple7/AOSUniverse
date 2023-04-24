@@ -9,7 +9,7 @@ import Foundation
 
 public typealias AOSType = AOSUniverseObject
 
-public enum AOSUniverseObject:String, Identifiable, CaseIterable {
+public enum AOSUniverseObject:String, Decodable, CaseIterable {
     case CATS
     case MAST
     case NGC
@@ -31,6 +31,7 @@ public enum AOSUniverseObject:String, Identifiable, CaseIterable {
     public var id:String {
         return self.rawValue.lowercased()
     }
+    
     
     func directoryUrl(_ assetType: AssetType)->URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathExtension(assetType.id).appendingPathExtension(self.id)
