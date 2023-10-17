@@ -85,12 +85,14 @@ public struct AOSStar:Codable {
     public let proper: String // proper star name
     public var hip: Int? // for exoplanet query
     public var hd:Int? // for exoplanet query
-    public init(_ type: AOSType, _ starCategory: Int, _ spectral: String, _ distanceToEarth: String, _ proper: String) {
+    public init(_ type: AOSType, _ starCategory: Int, _ spectral: String, _ hd: Int?, _ hip: Int?, _ distanceToEarth: Float, _ proper: String) {
         self.type = type
         self.starCategory = starCategory
         self.spectral = spectral
         self.distanceToEarth = distanceToEarth
         self.proper = proper
+        self.hd = hd
+        self.hip = hip
     }
 }
 
