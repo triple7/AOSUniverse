@@ -97,3 +97,8 @@ public struct AOSConstellation:Codable {
     
 }
 
+public struct AOSBlackHole:Codable {
+    public let type:AOSType
+    public let distanceToEarth:Float
+}
+
