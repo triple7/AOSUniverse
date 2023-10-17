@@ -74,13 +74,13 @@ public struct AOSMb:Codable {
 
 public struct AOSStar:Codable {
     
-    let type:AOSType
-    let starCategory:Int
-    let spectral:String // spectral category BUG should be enum
-    let distanceToEarth:Float // per object as scaling occurs in 3D space
-    let proper: String // proper star name
-    var hip: Int? // for exoplanet query
-    var hd:Int? // for exoplanet query
+    public let type:AOSType
+    public let starCategory:Int
+    public let spectral:String // spectral category BUG should be enum
+    public let distanceToEarth:Float // per object as scaling occurs in 3D space
+    public let proper: String // proper star name
+    public var hip: Int? // for exoplanet query
+    public var hd:Int? // for exoplanet query
 }
 
 public struct AOSConstellation:Codable {
