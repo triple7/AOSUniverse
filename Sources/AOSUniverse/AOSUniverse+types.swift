@@ -67,10 +67,12 @@ public static     func ==(lhs: AOSBody, rhs: AOSBody)->Bool{
 public struct AOSMb:Codable {
     public let type:AOSType
     public let id:Int
+    public let distanceToEarth:Float // per object as scaling occurs
     
-    public init( _ type: AOSType, _ id: Int) {
+    public init( _ type: AOSType, _ id: Int, _ distanceToEarth: Float) {
         self.type = type
         self.id = id
+        self.distanceToEarth = distanceToEarth
     }
 }
 
