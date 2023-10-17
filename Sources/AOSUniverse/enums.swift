@@ -19,6 +19,7 @@ public enum AOSUniverseObject:String, Codable, CaseIterable {
     case Comet
     case Constellation
     case Exoplanet
+    case Earth
     case EarthSat
     case Faststar
     case Kylonova
@@ -28,6 +29,7 @@ public enum AOSUniverseObject:String, Codable, CaseIterable {
     case Satellite
     case Supernova
     case Tidaldisruption
+    case SolarSystem
     
     public var id:String {
         return self.rawValue.lowercased()
