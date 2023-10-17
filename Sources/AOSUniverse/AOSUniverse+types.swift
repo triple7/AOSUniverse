@@ -68,8 +68,8 @@ public static     func ==(lhs: AOSBody, rhs: AOSBody)->Bool{
 
 
 public struct AOSMb:Codable {
-    let type:AOSType
-    let id:Int
+    public let type:AOSType
+    public let id:Int
 }
 
 public struct AOSStar:Codable {
@@ -84,11 +84,11 @@ public struct AOSStar:Codable {
 }
 
 public struct AOSConstellation:Codable {
-    let type:AOSType
-    let constellationDistance:Float
-    let constellationLYDistance:Float
-    let constLineIndex:Int
-    let constShort:String
+    public let type:AOSType
+    public let constellationDistance:Float
+    public let constellationLYDistance:Float
+    public let constLineIndex:Int
+    public let constShort:String
     
     
 }
