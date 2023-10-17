@@ -39,7 +39,7 @@ public struct AOSBody:Codable {
     
     
     //Mark: Initialiser for earth sats and Asteroids
-    init(_ name: String, _ id: Int, _ type: AOSType){
+    public init(_ name: String, _ id: Int, _ type: AOSType){
         self.id = id
         self.name = name
         self.type = type
