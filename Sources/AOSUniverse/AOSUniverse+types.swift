@@ -76,6 +76,14 @@ public struct AOSMb:Codable {
     }
 }
 
+public struct AOSBoundingBox:Codable {
+    public let type:AOSType
+    
+    public init( _ type: AOSType) {
+        self.type = type
+    }
+}
+
 public struct AOSStar:Codable {
     
     public let type:AOSType
