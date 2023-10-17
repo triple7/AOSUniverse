@@ -30,12 +30,12 @@ extension SCNVector3: Codable {
 }
 
 public struct AOSBody:Codable {
-    let name:String
-    let id:Int
-    let type:AOSType
-    let parent:String
-    var coordinates:[SCNVector3]
-    var distanceToEarth:Float
+    public let name:String
+    public let id:Int
+    public let type:AOSType
+    public let parent:String
+    public var coordinates:[SCNVector3]
+    public var distanceToEarth:Float
     
     
     //Mark: Initialiser for earth sats and Asteroids
