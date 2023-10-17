@@ -27,6 +27,7 @@ public enum AOSUniverseObject:String, Codable, CaseIterable {
     case NaturalSat
     case Planet
     case Satellite
+    case Star
     case Supernova
     case Tidaldisruption
     case SolarSystem
