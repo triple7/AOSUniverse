@@ -100,5 +100,10 @@ public struct AOSConstellation:Codable {
 public struct AOSBlackHole:Codable {
     public let type:AOSType
     public let distanceToEarth:Float
+    
+    public init( _ type: AOSType, _ distanceToEarth: Float) {
+        self.type = type
+        self.distanceToEarth = distanceToEarth
+    }
 }
 
