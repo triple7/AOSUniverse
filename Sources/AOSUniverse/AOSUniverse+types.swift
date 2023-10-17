@@ -31,7 +31,7 @@ extension SCNVector3: Codable {
 
 
 
-struct AOSBody:Codable {
+public struct AOSBody:Codable {
     let name:String
     let id:Int
     let type:AOSType
@@ -59,7 +59,7 @@ struct AOSBody:Codable {
 }
 
 extension AOSBody:Equatable{
-static     func ==(lhs: AOSBody, rhs: AOSBody)->Bool{
+public static     func ==(lhs: AOSBody, rhs: AOSBody)->Bool{
         return lhs.id == rhs.id
     }
 
@@ -67,12 +67,12 @@ static     func ==(lhs: AOSBody, rhs: AOSBody)->Bool{
 }
 
 
-struct AOSMb:Codable {
+public struct AOSMb:Codable {
     let type:AOSType
     let id:Int
 }
 
-struct AOSStar:Codable {
+public struct AOSStar:Codable {
     
     let type:AOSType
     let starCategory:Int
@@ -83,7 +83,7 @@ struct AOSStar:Codable {
     var hd:Int? // for exoplanet query
 }
 
-struct AOSConstellation:Codable {
+public struct AOSConstellation:Codable {
     let type:AOSType
     let constellationDistance:Float
     let constellationLYDistance:Float
