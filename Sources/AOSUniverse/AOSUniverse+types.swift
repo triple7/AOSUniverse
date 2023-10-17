@@ -29,8 +29,6 @@ extension SCNVector3: Codable {
     }
 }
 
-
-
 public struct AOSBody:Codable {
     let name:String
     let id:Int
@@ -66,10 +64,14 @@ public static     func ==(lhs: AOSBody, rhs: AOSBody)->Bool{
     
 }
 
-
 public struct AOSMb:Codable {
     public let type:AOSType
     public let id:Int
+    
+    public init( _ type: AOSType, _ id: Int) {
+        self.type = type
+        self.id = id
+    }
 }
 
 public struct AOSStar:Codable {
