@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "AOSUniverse",
     platforms: [
-        .iOS("16"),
+        .iOS("13"),
         .macOS("13")
     ],
     products: [
