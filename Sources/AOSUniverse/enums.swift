@@ -12,6 +12,7 @@ public typealias AOSType = AOSUniverseObject
 public enum AOSUniverseObject:String, Codable, CaseIterable {
     case None
     case CATS
+    case Derelict
     case MAST
     case NGC
     case TESS
