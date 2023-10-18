@@ -116,6 +116,14 @@ public struct AOSConstellation:Codable {
     public let constShort:String
     
     
+    public init( _ type: AOSType, _ constellationDistance: Float, _ constellationLYDistance: Float, _ constLineIndex: Int, _ constShort: String) {
+        self.type = type
+        self.constellationDistance = constellationDistance
+        self.constellationLYDistance = constellationLYDistance
+        self.constLineIndex = constLineIndex
+        self.constShort = constShort
+        
+    }
 }
 
 public struct AOSBlackHole:Codable {
