@@ -44,14 +44,16 @@ private(set) var totalBytes: Int64 = 0
     }
  
 }
-
+/*
 extension AOSPayload {
     
         var directoryURL: URL {
-            URL.documentsDirectory.appending(path: assetType.id, directoryHint: .isDirectory)
+            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            return documentsPath.appending(path: assetType.id, directoryHint: .isDirectory)
         }
     
     }
+ */
     
 public struct Asset:Identifiable {
     public let id:String
@@ -73,11 +75,12 @@ public struct Asset:Identifiable {
 
 }
 
+/*
 extension Asset {
     
     var fileURL: URL {
-        URL.documentsDirectory
-            .appending(path: assetType.id).appending(path: id).appendingPathExtension(assetType.media)
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return ddocumentsPath.appending(path: assetType.id).appending(path: id).appendingPathExtension(assetType.media)
     }
     
     func fileExists()->Bool {
@@ -96,3 +99,5 @@ extension Asset {
     
 }
     
+
+*/
