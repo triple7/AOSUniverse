@@ -46,7 +46,7 @@ public struct AOSBody:Codable {
         if type == .Asteroid {
             self.parent = "SolarSystem"
         } else if type == .EarthSat {
-            self.parent = "Earth"
+            self.parent = "NEOs"
         } else {
             self.parent = "SolarSystem"
         }

@@ -44,16 +44,16 @@ private(set) var totalBytes: Int64 = 0
     }
  
 }
-/*
+
 extension AOSPayload {
     
         var directoryURL: URL {
-            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            return documentsPath.appending(path: assetType.id, directoryHint: .isDirectory)
+            var documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            documentsPath.appendPathComponent(assetType.id)
+            return documentsPath
         }
     
     }
- */
     
 public struct Asset:Identifiable {
     public let id:String
@@ -75,12 +75,14 @@ public struct Asset:Identifiable {
 
 }
 
-/*
 extension Asset {
     
     var fileURL: URL {
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return ddocumentsPath.appending(path: assetType.id).appending(path: id).appendingPathExtension(assetType.media)
+        var documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        documentsPath.appendPathComponent(assetType.id)
+        documentsPath.appendPathComponent(id)
+        documentsPath.appendPathExtension(assetType.media)
+        return documentsPath
     }
     
     func fileExists()->Bool {
@@ -100,4 +102,3 @@ extension Asset {
 }
     
 
-*/
