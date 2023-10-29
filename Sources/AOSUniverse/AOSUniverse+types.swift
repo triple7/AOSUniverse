@@ -56,11 +56,14 @@ public struct AOSBody:Codable {
     
 }
 
-extension AOSBody:Equatable{
+extension AOSBody:Equatable, Comparable{
 public static     func ==(lhs: AOSBody, rhs: AOSBody)->Bool{
         return lhs.id == rhs.id
     }
-
+    
+    public static func <(lhs: AOSBody, rhs: AOSBody) -> Bool{
+        return lhs.id < rhs.id
+    }
     
 }
 
