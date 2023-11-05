@@ -12,7 +12,7 @@ public typealias Payload = AOSPayload
 public struct AOSPayload {
 public let id: Int
     let assetType:AssetType
-    var assets:[Asset]
+    var assets:[AOSAsset]
  var isDownloading: Bool = false
 private(set) var currentBytes: Int64 = 0
 private(set) var totalBytes: Int64 = 0
@@ -31,7 +31,7 @@ private(set) var totalBytes: Int64 = 0
         self.assets.remove(at: index)
     }
     
-    subscript(assetId: Asset.ID) -> Asset? {
+    subscript(assetId: AOSAsset.ID) -> AOSAsset? {
         get {
             assets.first { $0.id == assetId }
         }
@@ -55,7 +55,7 @@ extension AOSPayload {
     
     }
     
-public struct Asset:Identifiable {
+public struct AOSAsset:Identifiable {
     public let id:String
     let assetType:AssetType
     let url:URL
@@ -75,7 +75,7 @@ public struct Asset:Identifiable {
 
 }
 
-extension Asset {
+extension AOSAsset {
     
     var fileURL: URL {
         var documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!

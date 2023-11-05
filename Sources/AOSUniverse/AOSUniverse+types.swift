@@ -54,6 +54,9 @@ public struct AOSBody:Codable {
         self.distanceToEarth = 0.0
     }
     
+    public func getModelName()->String {
+        return "\(id).scn"
+    }
 }
 
 extension AOSBody:Equatable, Comparable{

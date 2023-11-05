@@ -68,3 +68,10 @@ public enum AssetType:String, Identifiable, CaseIterable {
 }
 
 
+public enum AOSNetworkError:Error {
+    case NoSuchObject
+    case RequestError
+    case DataCorrupted
+    case Ok
+}
+
