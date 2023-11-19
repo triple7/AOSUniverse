@@ -78,11 +78,11 @@ public struct AOSMb:Codable {
     public let distanceToEarth:Float // per object as scaling occurs
     public var radiusOfGeometry:Float
 
-    public init( _ type: AOSType, _ id: Int, _ distanceToEarth: Float, _ radiusOfGeometry: Float) {
+    public init( _ type: AOSType, _ id: Int, _ distanceToEarth: Float) {
         self.type = type
         self.id = id
         self.distanceToEarth = distanceToEarth
-        self.radiusOfGeometry = radiusOfGeometry
+        self.radiusOfGeometry = 0.0
     }
 }
 
@@ -106,7 +106,7 @@ public struct AOSStar:Codable {
     public var hip: Int? // for exoplanet query
     public var hd:Int? // for exoplanet query
     
-    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ spectral: String, _ distanceToEarth: Float, _ radiusOfGeometry: Float) {
+    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ spectral: String, _ distanceToEarth: Float) {
         self.type = type
         self.id = id
         self.hd = hd
@@ -115,7 +115,7 @@ public struct AOSStar:Codable {
         self.starCategory = starCategory
         self.spectral = spectral
         self.distanceToEarth = distanceToEarth
-        self.radiusOfGeometry = radiusOfGeometry
+        self.radiusOfGeometry = 0.0
     }
         
 }
@@ -143,10 +143,10 @@ public struct AOSBlackHole:Codable {
     public let distanceToEarth:Float
     public var radiusOfGeometry:Float
 
-    public init( _ type: AOSType, _ distanceToEarth: Float, _ radiusOfGeometry: Float) {
+    public init( _ type: AOSType, _ distanceToEarth: Float) {
         self.type = type
         self.distanceToEarth = distanceToEarth
-        self.radiusOfGeometry = radiusOfGeometry
+        self.radiusOfGeometry = 0.0
     }
 }
 
