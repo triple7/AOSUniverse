@@ -36,7 +36,8 @@ public struct AOSBody:Codable {
     public let parent:String
     public var coordinates:[SCNVector3]
     public var distanceToEarth:Float
-    
+    public var radiusOfGeometry:Float
+
     
     //Mark: Initialiser for earth sats and Asteroids
     public init(_ name: String, _ id: Int, _ type: AOSType){
@@ -52,6 +53,7 @@ public struct AOSBody:Codable {
         }
         self.coordinates = [SCNVector3]()
         self.distanceToEarth = 0.0
+        self.radiusOfGeometry = 0.0
     }
     
     public func getModelName()->String {
@@ -74,11 +76,13 @@ public struct AOSMb:Codable {
     public let type:AOSType
     public let id:Int
     public let distanceToEarth:Float // per object as scaling occurs
-    
-    public init( _ type: AOSType, _ id: Int, _ distanceToEarth: Float) {
+    public var radiusOfGeometry:Float
+
+    public init( _ type: AOSType, _ id: Int, _ distanceToEarth: Float, _ radiusOfGeometry: Float) {
         self.type = type
         self.id = id
         self.distanceToEarth = distanceToEarth
+        self.radiusOfGeometry = radiusOfGeometry
     }
 }
 
@@ -97,11 +101,12 @@ public struct AOSStar:Codable {
     public let starCategory:Int
     public let spectral:String // spectral category BUG should be enum
     public let distanceToEarth:Float // per object as scaling occurs in 3D space
+    public var radiusOfGeometry:Float
     public let proper: String // proper star name
     public var hip: Int? // for exoplanet query
     public var hd:Int? // for exoplanet query
     
-    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ spectral: String, _ distanceToEarth: Float) {
+    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ spectral: String, _ distanceToEarth: Float, _ radiusOfGeometry: Float) {
         self.type = type
         self.id = id
         self.hd = hd
@@ -110,6 +115,7 @@ public struct AOSStar:Codable {
         self.starCategory = starCategory
         self.spectral = spectral
         self.distanceToEarth = distanceToEarth
+        self.radiusOfGeometry = radiusOfGeometry
     }
         
 }
@@ -135,10 +141,12 @@ public struct AOSConstellation:Codable {
 public struct AOSBlackHole:Codable {
     public let type:AOSType
     public let distanceToEarth:Float
-    
-    public init( _ type: AOSType, _ distanceToEarth: Float) {
+    public var radiusOfGeometry:Float
+
+    public init( _ type: AOSType, _ distanceToEarth: Float, _ radiusOfGeometry: Float) {
         self.type = type
         self.distanceToEarth = distanceToEarth
+        self.radiusOfGeometry = radiusOfGeometry
     }
 }
 
