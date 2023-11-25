@@ -60,7 +60,7 @@ public struct AOSBody:Codable {
         return "\(id).scn"
     }
     
-    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+    public mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
 
@@ -90,7 +90,7 @@ public struct AOSMb:Codable {
         self.radiusOfGeometry = 0.0
     }
     
-    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+    public mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
 
@@ -128,7 +128,7 @@ public struct AOSStar:Codable {
         self.radiusOfGeometry = 0.0
     }
     
-    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+    public mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
 
@@ -165,7 +165,7 @@ public struct AOSBlackHole:Codable {
         self.radiusOfGeometry = 0.0
     }
     
-    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+    public mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
 
