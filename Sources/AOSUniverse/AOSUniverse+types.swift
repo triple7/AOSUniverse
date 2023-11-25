@@ -59,6 +59,11 @@ public struct AOSBody:Codable {
     public func getModelName()->String {
         return "\(id).scn"
     }
+    
+    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+        self.radiusOfGeometry = radiusGeometry
+    }
+
 }
 
 extension AOSBody:Equatable, Comparable{
@@ -84,6 +89,11 @@ public struct AOSMb:Codable {
         self.distanceToEarth = distanceToEarth
         self.radiusOfGeometry = 0.0
     }
+    
+    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+        self.radiusOfGeometry = radiusGeometry
+    }
+
 }
 
 public struct AOSBoundingBox:Codable {
@@ -117,6 +127,11 @@ public struct AOSStar:Codable {
         self.distanceToEarth = distanceToEarth
         self.radiusOfGeometry = 0.0
     }
+    
+    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+        self.radiusOfGeometry = radiusGeometry
+    }
+
         
 }
 
@@ -136,6 +151,7 @@ public struct AOSConstellation:Codable {
         self.constShort = constShort
         
     }
+
 }
 
 public struct AOSBlackHole:Codable {
@@ -148,5 +164,10 @@ public struct AOSBlackHole:Codable {
         self.distanceToEarth = distanceToEarth
         self.radiusOfGeometry = 0.0
     }
+    
+    mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+        self.radiusOfGeometry = radiusGeometry
+    }
+
 }
 
