@@ -175,3 +175,7 @@ public struct AOSBlackHole:Codable {
 
 }
 
+public struct AOSGreek:Codable {
+    let name:String
+    let unicode:String
+}
