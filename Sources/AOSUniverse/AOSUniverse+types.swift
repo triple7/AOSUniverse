@@ -136,6 +136,9 @@ public struct AOSStar:Codable {
         self.radiusOfGeometry = radiusGeometry
     }
 
+    public mutating func setGreek(greek: String) {
+        self.greek = greek
+    }
         
 }
 
