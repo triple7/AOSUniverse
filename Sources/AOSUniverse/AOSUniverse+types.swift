@@ -38,7 +38,6 @@ public struct AOSBody:Codable {
     public var distanceToEarth:Float
     public var radiusOfGeometry:Float
 
-    
     //Mark: Initialiser for earth sats and Asteroids
     public init(_ name: String, _ id: Int, _ type: AOSType){
         self.id = id
@@ -60,7 +59,7 @@ public struct AOSBody:Codable {
         return "\(id).scn"
     }
     
-    public mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+    public mutating func setRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
 
