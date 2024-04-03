@@ -158,10 +158,11 @@ public struct AOSStar:Codable {
             output.append(proper)
         }
         if let symbol = greek {
+            let pluralLower = plural?.replacingOccurrences(of: " ", with: "")
             if output.count > 0 {
-                output.append(contentsOf: ["or", symbol, plural!])
+                output.append(contentsOf: ["or", symbol, pluralLower!])
             } else {
-                output.append(contentsOf: [symbol, plural!])
+                output.append(contentsOf: [symbol, pluralLower!])
             }
         }
         if output.count == 0 {
