@@ -89,7 +89,7 @@ public struct AOSMb:Codable {
         self.radiusOfGeometry = 0.0
     }
     
-    public mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+    public mutating func setRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
 
@@ -202,7 +202,7 @@ public struct AOSBlackHole:Codable {
         self.radiusOfGeometry = 0.0
     }
     
-    public mutating func mutateRadiusOfGeometry(radiusGeometry: Float) {
+    public mutating func setRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
 
