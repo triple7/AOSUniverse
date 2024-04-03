@@ -95,13 +95,15 @@ public struct AOSStar:Codable {
     public let type:AOSType
     public let id:Int
     public let starCategory:Int
+    public let constellation:String
     public let spectral:String // spectral category BUG should be enum
     public let distanceToEarth:Float // per object as scaling occurs in 3D space
     public let proper: String // proper star name
     public var hip: Int? // for exoplanet query
     public var hd:Int? // for exoplanet query
+    public var greek:String?
     
-    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ spectral: String, _ distanceToEarth: Float) {
+    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ constellation: String, _ spectral: String, _ distanceToEarth: Float, _ greek: String) {
         self.type = type
         self.id = id
         self.hd = hd
@@ -110,6 +112,8 @@ public struct AOSStar:Codable {
         self.starCategory = starCategory
         self.spectral = spectral
         self.distanceToEarth = distanceToEarth
+        self.constellation = constellation
+        self.greek = greek
     }
         
 }
