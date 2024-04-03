@@ -135,11 +135,42 @@ public struct AOSStar:Codable {
     public mutating func setRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
     }
-
+    
     public mutating func setGreek(greek: String) {
         self.greek = greek
     }
-        
+    
+    public func starIdentification() -> [String] {
+        var output = [String]()
+        if let hd = self.hd {
+            output.append("HD\(hd)")
+        } else if let hip = self.hip {
+            output.append("HIP\(hip)")
+        } else if proper != "" {
+            output.append(proper)
+        }
+        output.append("spectral \(spectral)")
+        return output
+    }
+
+    public func starNames() -> [String] {
+        var output = [String]()
+        if proper != "" {
+            output.append(proper)
+        }
+        if let symbol = greek {
+            if output.count > 0 {
+                output.append(contentsOf: ["or", symbol, plural!])
+            } else {
+                output.append(contentsOf: [symbol, plural!])
+            }
+        }
+        if output.count == 0 {
+            output.append(spectral)
+        }
+        return output
+    }
+
 }
 
 public struct AOSConstellation:Codable {
