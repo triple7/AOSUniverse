@@ -116,8 +116,9 @@ public struct AOSStar:Codable {
     public var hip: Int? // for exoplanet query
     public var hd:Int? // for exoplanet query
     public var greek:String?
+    public var plural:String?
     
-    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ spectral: String, _ distanceToEarth: Float, _ greek: String) {
+    public init(_ type: AOSType, _ id: Int, _ hd: Int?, _ hip: Int?, _ proper: String, _ starCategory: Int, _ plural: String, _ spectral: String, _ distanceToEarth: Float, _ greek: String, _ pural: String) {
         self.type = type
         self.id = id
         self.hd = hd
@@ -127,6 +128,7 @@ public struct AOSStar:Codable {
         self.spectral = spectral
         self.distanceToEarth = distanceToEarth
         self.greek = greek
+        self.plural = plural
         self.radiusOfGeometry = 0.0
     }
     
