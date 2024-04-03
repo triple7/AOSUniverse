@@ -209,6 +209,6 @@ public struct AOSBlackHole:Codable {
 }
 
 public struct AOSGreek:Codable {
-    let name:String
-    let unicode:String
+    public let name:String
+    public let unicode:String
 }
