@@ -148,7 +148,8 @@ public struct AOSStar:Codable {
         } else if proper != "" {
             output.append(proper)
         }
-        output.append("spectral \(spectral)")
+        output.append("spectral")
+        output.append(spectral)
         return output
     }
 
