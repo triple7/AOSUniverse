@@ -38,6 +38,18 @@ public struct AOSBody:Codable {
     public var distanceToEarth:Float
     public var radiusOfGeometry:Float
 
+    
+    
+    //    Semi Major axis length
+    public var orbitSemiMajorAxis:Float
+    //    Eccentricity of the orbit, indicating how much the orbit deviates from being circular.
+    public var orbitEccentricity:Float
+    //    Inclination of the orbit, the tilt of the orbit relative to the equatorial plane.
+    public var orbitInclination:Float
+    //    Argument of pericenter, the angle from the ascending node to the orbit's closest point to the reference body.
+    public var orbitArgPericenter:Float
+    //    Right ascension of the ascending node, the angle from the reference direction to the ascending node of the orbit.
+    public var orbitRightAscension:Float
     //Mark: Initialiser for earth sats and Asteroids
     public init(_ name: String, _ id: Int, _ type: AOSType){
         self.id = id
@@ -53,6 +65,12 @@ public struct AOSBody:Codable {
         self.coordinates = [SCNVector3]()
         self.distanceToEarth = 0.0
         self.radiusOfGeometry = 0.0
+        self.orbitSemiMajorAxis = 0.0
+        self.orbitEccentricity = 0.0
+        self.orbitInclination = 0.0
+        self.orbitArgPericenter = 0.0
+        self.orbitRightAscension = 0.0
+
     }
     
     public func getModelName()->String {
@@ -63,6 +81,13 @@ public struct AOSBody:Codable {
         self.radiusOfGeometry = radiusGeometry
     }
 
+    public mutating func setOrbitParameters(SemiMajorAxis: Float, Eccentricity: Float, Inclination: Float, ArgPericenter: Float, RightAscension: Float) {
+        self.orbitSemiMajorAxis = SemiMajorAxis
+        self.orbitEccentricity = Eccentricity
+        self.orbitInclination = Inclination
+        self.orbitArgPericenter = ArgPericenter
+        self.orbitRightAscension = RightAscension
+    }
 }
 
 extension AOSBody:Equatable, Comparable{
