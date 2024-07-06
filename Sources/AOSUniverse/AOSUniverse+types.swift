@@ -37,6 +37,7 @@ public struct AOSBody:Codable {
     public var coordinates:[SCNVector3]
     public var distanceToEarth:Float
     public var radiusOfGeometry:Float
+    public var epoch0:Int?
 
     
     
@@ -239,3 +240,80 @@ public struct AOSGreek:Codable {
     public let name:String
     public let unicode:String
 }
+
+
+public enum AssetQuality:String, Identifiable, Codable {
+    case FullScene
+    case ObjectOnly
+    case MaterialOnly
+    case Unknown
+    
+    public func getQuality( folder: [String]) -> AssetQuality {
+        let hasObj = folder.map{$0.contains(".obj")}.contains(true)
+        let hasMtl = folder.map{$0.contains(".mtl")}.contains(true)
+        let hasJpg = folder.map{$0.contains(".jpg")}.contains(true)
+        let quality = [hasObj, hasMtl, hasJpg]
+        if quality.allSatisfy{$0} {
+            return AssetQuality.FullScene
+        }
+        if hasObj && !hasMtl {
+            return AssetQuality.ObjectOnly
+        }
+        if hasJpg && !hasObj {
+            return AssetQuality.MaterialOnly
+        }
+        return AssetQuality.Unknown
+    }
+    
+    public var id:String {
+        return self.rawValue
+    }
+}
+
+public enum MaterialQuality:String, Identifiable, Codable {
+    case Normal
+    case Lower
+    case Lowest
+    
+    public var id:String {
+        return self.rawValue
+    }
+}
+
+public struct Texture:Codable {
+    let normal:String
+    let lower:String
+    let lowest:String
+}
+
+public struct AssetPayload:Codable {
+    let modelUrl:String
+    let assetQuality:AssetQuality
+    let modelFiles:[String: String]
+    let textureFiles:[String: Texture]
+    var mtl:String?
+
+    public func payload( folder: String, resolution: MaterialQuality) -> [String: [URL]] {
+        switch self.assetQuality {
+        case .FullScene:
+            return [
+                "model": self.modelFiles.keys.map{Foundation.URL(fileURLWithPath: self.modelFiles[$0]!)},
+                "diffuse": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
+                "bump": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
+                "mtl": [Foundation.URL(fileURLWithPath: self.mtl!)]
+            ]
+        case .ObjectOnly:
+            return [
+                "model": self.modelFiles.keys.map{Foundation.URL(fileURLWithPath: self.modelFiles[$0]!)}
+]
+        case .MaterialOnly:
+            return [
+                "diffuse": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
+                "bump": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
+            ]
+        case .Unknown:
+            return [:]
+        }
+    }
+}
+

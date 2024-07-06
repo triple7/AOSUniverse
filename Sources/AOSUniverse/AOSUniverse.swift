@@ -79,29 +79,19 @@ public final class AOSUniverse:ObservableObject {
         }
     }
 
-    internal func unpackModel(at url: URL, body: AOSBody) {
+    internal func unpackModel(at url: URL, body: AOSBody) -> AssetPayload {
         do{
             let unzipDirectory = try Zip.quickUnzipFile(url)
             let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
-            var scene:SCNScene
-            if folder.count == 3{
-                // obj + texture + mtl
-                let texture = Foundation.URL(fileURLWithPath: unzipDirectory.appendingPathComponent(folder[0], isDirectory: false).path)
-                let mtl = Foundation.URL(fileURLWithPath: unzipDirectory.appendingPathComponent(folder[1], isDirectory: false).path)
-                let obj = Foundation.URL(fileURLWithPath: unzipDirectory.appendingPathComponent(folder[2], isDirectory: false).path)
-                scene = try SCNScene(url: obj, options: [SCNSceneSource.LoadingOption.assetDirectoryURLs: [mtl, texture]])
-            }else if folder.count == 2{
-                // obj + mtl
-                let mtl = Foundation.URL(fileURLWithPath: unzipDirectory.appendingPathComponent(folder[0], isDirectory: false).path)
-                let obj = Foundation.URL(fileURLWithPath: unzipDirectory.appendingPathComponent(folder[1], isDirectory: false).path)
-                scene = try SCNScene(url: obj, options: [SCNSceneSource.LoadingOption.assetDirectoryURLs: [mtl]])
-            }else{
-                let url = Foundation.URL(fileURLWithPath: unzipDirectory.appendingPathComponent(folder[0], isDirectory: false).path)
-                scene = try SCNScene(url: url, options: nil)
-            }
-            // scn is created, keep a local copy
-            saveScene(scene: scene, assetType: .model,type: body.type, name: body.name)
-            clearTempDirectory(unzipDirectory, folder)
+
+            let assetQuality = AssetQuality.Unknown.getQuality(folder: folder)
+            
+            let objs = folder.filter{ $0.contains(".obj")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path()}
+            let textures = folder.map{$0.contains(".jpg")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path()}
+                                                  let bumpMaps = textures.filter{$0.contains("_bump")}
+            let diffusemaps = textures.filter{!$0.contains("_bump")}
+            let mtl = folder.filter{$0.contains(".mtl")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path}
+
         }catch let error{
             assertionFailure(error.localizedDescription)
         }
