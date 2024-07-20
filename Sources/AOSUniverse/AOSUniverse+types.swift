@@ -74,6 +74,13 @@ public struct AOSBody:Codable {
 
     }
     
+    public func earthSatId() -> Int {
+        switch self.type {
+        case .EarthSat: return self.id + Int(10e8)
+        default: return self.id
+        }
+    }
+    
     public func getModelName()->String {
         return "\(id).scn"
     }
@@ -284,10 +291,17 @@ public struct Texture:Codable {
     let normal:String
     let lower:String
     let lowest:String
+    
+    public func fileName(resolution: MaterialQuality) -> String {
+        switch resolution {
+        case .Lowest: return self.lowest
+        case .Lower: return self.lower
+        case .Normal: return self.normal
+        }
+    }
 }
 
 public struct AssetPayload:Codable {
-    let modelUrl:String
     let assetQuality:AssetQuality
     let modelFiles:[String: String]
     let textureFiles:[String: Texture]
@@ -298,8 +312,8 @@ public struct AssetPayload:Codable {
         case .FullScene:
             return [
                 "model": self.modelFiles.keys.map{Foundation.URL(fileURLWithPath: self.modelFiles[$0]!)},
-                "diffuse": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
-                "bump": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
+                "diffuse": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!.fileName(resolution: resolution))],
+                "bump": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!.fileName(resolution: resolution))],
                 "mtl": [Foundation.URL(fileURLWithPath: self.mtl!)]
             ]
         case .ObjectOnly:
@@ -308,8 +322,8 @@ public struct AssetPayload:Codable {
 ]
         case .MaterialOnly:
             return [
-                "diffuse": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
-                "bump": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!)],
+                "diffuse": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!.fileName(resolution: resolution))],
+                "bump": [Foundation.URL(fileURLWithPath: self.textureFiles[resolution.id]!.fileName(resolution: resolution))],
             ]
         case .Unknown:
             return [:]

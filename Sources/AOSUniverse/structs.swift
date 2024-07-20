@@ -100,5 +100,15 @@ extension AOSAsset {
 }
     
 }
-    
 
+public struct FilterCombinations:Codable {
+    public let InfraredCombination:[String]
+    public let UltravioletCombination:[String]
+    public let VisibleLightCombination:[String]
+    public let BroadbandandNarrowbandCombination:[String]
+    public let GrismandPrismCombination:[String]
+    public let DetectionandClearFilters:[String]
+    public let CombinedWavelengths:[String]
+    public let SpecializedFilters:[String]
+    
+}

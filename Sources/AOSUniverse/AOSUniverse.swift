@@ -87,14 +87,24 @@ public final class AOSUniverse:ObservableObject {
             let assetQuality = AssetQuality.Unknown.getQuality(folder: folder)
             
             let objs = folder.filter{ $0.contains(".obj")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path()}
-            let textures = folder.map{$0.contains(".jpg")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path()}
+            var modelFiles = [String:String]()
+            for (i, obj) in objs.enumerated() {
+                modelFiles[obj.components(separatedBy: ".").last!] = obj
+            }
+            let textures = folder.filter{$0.contains(".jpg")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path()}
+            
+            var textureFiles = [String:Texture]()
+            
                                                   let bumpMaps = textures.filter{$0.contains("_bump")}
             let diffusemaps = textures.filter{!$0.contains("_bump")}
             let mtl = folder.filter{$0.contains(".mtl")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path}
 
+            return AssetPayload(assetQuality: assetQuality, modelFiles: modelFiles, textureFiles: textureFiles, mtl: mtl.count > 0 ? mtl.first! : nil)
         }catch let error{
             assertionFailure(error.localizedDescription)
         }
+        
+        return AssetPayload(assetQuality: .Unknown, modelFiles: [String: String](), textureFiles: [String: Texture]())
     }
     
     private func clearTempDirectory(_ url: URL, _ folder: [String]){
