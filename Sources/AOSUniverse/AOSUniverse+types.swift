@@ -93,6 +93,10 @@ public struct AOSBody:Codable {
         self.radiusOfGeometry = radiusGeometry
     }
 
+    public mutating func setCurrentCoordTimestamp(currentCoordTimestamp: Double) {
+        self.currentCoordTimestamp = currentCoordTimestamp
+    }
+
     public mutating func setOrbitParameters(SemiMajorAxis: Float, Eccentricity: Float, Inclination: Float, ArgPericenter: Float, RightAscension: Float) {
         self.orbitSemiMajorAxis = SemiMajorAxis
         self.orbitEccentricity = Eccentricity
