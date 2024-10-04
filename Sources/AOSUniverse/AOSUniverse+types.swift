@@ -35,6 +35,8 @@ public struct AOSBody:Codable {
     public let type:AOSType
     public let parent:String
     public var coordinates:[SCNVector3]
+    public var coordinateTimestamps:[Double]
+    public var currentCoordTimestamp:Double
     public var distanceToEarth:Float
     public var radiusOfGeometry:Float
     public var epoch0:Int?
@@ -64,6 +66,8 @@ public struct AOSBody:Codable {
             self.parent = "SolarSystem"
         }
         self.coordinates = [SCNVector3]()
+        self.coordinateTimestamps = [Double]()
+        self.currentCoordTimestamp = 0.0
         self.distanceToEarth = 0.0
         self.radiusOfGeometry = 0.0
         self.orbitSemiMajorAxis = 0.0
@@ -87,6 +91,10 @@ public struct AOSBody:Codable {
     
     public mutating func setRadiusOfGeometry(radiusGeometry: Float) {
         self.radiusOfGeometry = radiusGeometry
+    }
+
+    public mutating func setCurrentCoordTimestamp(currentCoordTimestamp: Double) {
+        self.currentCoordTimestamp = currentCoordTimestamp
     }
 
     public mutating func setOrbitParameters(SemiMajorAxis: Float, Eccentricity: Float, Inclination: Float, ArgPericenter: Float, RightAscension: Float) {
