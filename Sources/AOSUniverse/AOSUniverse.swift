@@ -37,7 +37,7 @@ public final class AOSUniverse:ObservableObject {
         return [AOSSysLog]()
     }()
 
-    public let shared = AOSUniverse()
+    public static let shared = AOSUniverse()
 
     private init() {
         /** Initializer
