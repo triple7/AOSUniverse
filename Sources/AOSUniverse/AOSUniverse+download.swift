@@ -161,7 +161,6 @@ extension AOSUniverse {
                 return
             })
         } else {
-            print("File exists")
             // Compare local file against remote
             let localUrl = getCachedFile(assetpath: assetPath, type: type, text: name)
                 let localLastModified = getLastModifiedDate(for: localUrl.absoluteString)
@@ -179,6 +178,7 @@ extension AOSUniverse {
 
                     
                 } else {
+                    print("File exists")
                     result(localUrl)
                 }
             }
