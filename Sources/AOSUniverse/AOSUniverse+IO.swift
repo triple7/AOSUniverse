@@ -14,11 +14,12 @@ internal func getDocumentsUrl()->URL {
     }
 
 
-internal func getAssetUrl(assetpath: [String]) -> URL {
+internal func getAssetUrl(assetpath: [String], type: String) -> URL {
     var assetFolder = getDocumentsUrl()
     for asset in assetpath {
         assetFolder = assetFolder.appendingPathComponent(asset, isDirectory: true)
     }
+    assetFolder = assetFolder.appendingPathComponent(type, isDirectory: true)
     if !FileManager.default.fileExists(atPath: assetFolder.path) {
         print("creating asset folder: \(assetFolder.path())")
         return createAssetFolder(folder: assetFolder)
@@ -28,7 +29,8 @@ internal func getAssetUrl(assetpath: [String]) -> URL {
 
 
 internal func getCachedFile(assetpath: [String], type: String, text: String) -> URL {
-    return getAssetUrl(assetpath: assetpath).appendingPathComponent("\(text)_\(type)_low.mp3")
+    print("getCachedFile: \(text)")
+    return getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent(text)
 }
 
 
@@ -51,7 +53,7 @@ internal func createAssetFolder(folder: URL) -> URL {
 
 
 internal func moveFileToPath(assetpath: [String], type: String, url: URL, text: String) -> URL  {
-    let destinationUrl = getAssetUrl(assetpath: assetpath + [type]).appendingPathComponent("\(text)_\(type)_low.mp3")
+    let destinationUrl = getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent("\(text)_\(type)_low.mp3")
     do {
         try FileManager.default.moveItem(at: url, to: destinationUrl)
         // Remove the temporary url
