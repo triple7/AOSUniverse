@@ -34,6 +34,7 @@ internal func getCachedFile(assetpath: [String], type: String, text: String) -> 
 
 internal func fileIsInCache(assetpath: [String], type: String, text: String) -> Bool {
     let file = getCachedFile(assetpath: assetpath, type: type, text: text)
+    print("cache: \(file.path())")
     return FileManager.default.fileExists(atPath: file.path)
 }
 
