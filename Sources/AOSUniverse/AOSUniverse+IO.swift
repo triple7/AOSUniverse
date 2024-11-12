@@ -28,7 +28,7 @@ internal func getAssetUrl(assetpath: [String]) -> URL {
 
 
 internal func getCachedFile(assetpath: [String], text: String) -> URL {
-    return getAssetUrl(assetpath: assetpath).appendingPathExtension("\(text).mp3")
+    return getAssetUrl(assetpath: assetpath).appendingPathComponent("\(text).mp3")
 }
 
 
@@ -50,7 +50,7 @@ internal func createAssetFolder(folder: URL) -> URL {
 
 
 internal func moveFileToPath(assetpath: [String], url: URL, text: String) -> URL  {
-    let destinationUrl = getAssetUrl(assetpath: assetpath).appendingPathExtension("\(text).mp3")
+    let destinationUrl = getAssetUrl(assetpath: assetpath).appendingPathComponent("\(text).mp3")
     do {
         try FileManager.default.moveItem(at: url, to: destinationUrl)
         // Remove the temporary url
