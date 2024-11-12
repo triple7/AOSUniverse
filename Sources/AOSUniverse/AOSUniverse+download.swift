@@ -147,10 +147,10 @@ extension AOSUniverse {
         }
         url = url.appendingPathComponent(type, isDirectory: true)
         url = url.appending(component: "\(name)_\(type)_low.mp3")
-
+        print(url.absoluteString)
         // Get the lastModified date regardless
         fetchLastModifiedDate(for: url, dateCompletion: { remoteLastModified in
-
+            print(remoteLastModified)
         if !fileIsInCache(assetpath: ["sound", type], text: "\(name)_\(type)_low") {
             self.getRemoteSource(url: url, completion: { tempUrl in
                 let loadedUrl = moveFileToPath(assetpath: assetPath, url: tempUrl!, text: name)
