@@ -151,7 +151,7 @@ extension AOSUniverse {
         // Get the lastModified date regardless
         fetchLastModifiedDate(for: url, dateCompletion: { remoteLastModified in
             print(remoteLastModified!)
-            if !fileIsInCache(assetpath: assetPath, type: type, text: "\(name)_\(type)_low") {
+            if !fileIsInCache(assetpath: assetPath, type: type, text: "\(name)_\(type)_low.mp3") {
                 print("File does not exist")
             self.getRemoteSource(url: url, completion: { tempUrl in
                 let loadedUrl = moveFileToPath(assetpath: assetPath, type: type, url: tempUrl!, text: name)
