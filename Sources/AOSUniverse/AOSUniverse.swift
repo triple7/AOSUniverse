@@ -25,7 +25,7 @@ public struct AOSSysLog:CustomStringConvertible {
 }
 
 public final class AOSUniverse:ObservableObject {
-    private let baseUrl = "https://universe.astreos.space"
+    internal let baseUrl = "https://universe.astreos.space/serve/"
     public lazy var models:[SCNScene] = {
         return [SCNScene]()
     }()
