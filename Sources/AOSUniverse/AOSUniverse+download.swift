@@ -151,7 +151,7 @@ extension AOSUniverse {
         // Get the lastModified date regardless
         fetchLastModifiedDate(for: url, dateCompletion: { remoteLastModified in
             print(remoteLastModified)
-            if !fileIsInCache(assetpath: assetPath + [type], text: "\(name)_\(type)_low") {
+            if !fileIsInCache(assetpath: assetPath, type: type, text: "\(name)_\(type)_low") {
             self.getRemoteSource(url: url, completion: { tempUrl in
                 let loadedUrl = moveFileToPath(assetpath: assetPath, type: type, url: tempUrl!, text: name)
                 setLastModifiedDate(for: loadedUrl, to: remoteLastModified!)
@@ -161,7 +161,7 @@ extension AOSUniverse {
             })
         } else {
             // Compare local file against remote
-                let localUrl = getCachedFile(assetpath: assetPath + [type], text: name)
+            let localUrl = getCachedFile(assetpath: assetPath, type: type, text: name)
                 let localLastModified = getLastModifiedDate(for: localUrl.absoluteString)
                 
                 // most recent becomes cached version

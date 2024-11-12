@@ -27,13 +27,13 @@ internal func getAssetUrl(assetpath: [String]) -> URL {
 }
 
 
-internal func getCachedFile(assetpath: [String], text: String) -> URL {
-    return getAssetUrl(assetpath: assetpath).appendingPathComponent("\(text).mp3")
+internal func getCachedFile(assetpath: [String], type: String, text: String) -> URL {
+    return getAssetUrl(assetpath: assetpath).appendingPathComponent("\(text)_\(type)_low.mp3")
 }
 
 
-internal func fileIsInCache(assetpath: [String], text: String) -> Bool {
-    let file = getCachedFile(assetpath: assetpath, text: text)
+internal func fileIsInCache(assetpath: [String], type: String, text: String) -> Bool {
+    let file = getCachedFile(assetpath: assetpath, type: type, text: text)
     return FileManager.default.fileExists(atPath: file.path)
 }
 
