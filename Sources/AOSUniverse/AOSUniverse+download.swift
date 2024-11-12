@@ -150,8 +150,9 @@ extension AOSUniverse {
         print(url.absoluteString)
         // Get the lastModified date regardless
         fetchLastModifiedDate(for: url, dateCompletion: { remoteLastModified in
-            print(remoteLastModified)
+            print(remoteLastModified!)
             if !fileIsInCache(assetpath: assetPath, type: type, text: "\(name)_\(type)_low") {
+                print("File does not exist")
             self.getRemoteSource(url: url, completion: { tempUrl in
                 let loadedUrl = moveFileToPath(assetpath: assetPath, type: type, url: tempUrl!, text: name)
                 setLastModifiedDate(for: loadedUrl, to: remoteLastModified!)
@@ -160,11 +161,13 @@ extension AOSUniverse {
                 return
             })
         } else {
+            print("File exists")
             // Compare local file against remote
             let localUrl = getCachedFile(assetpath: assetPath, type: type, text: name)
                 let localLastModified = getLastModifiedDate(for: localUrl.absoluteString)
                 
                 // most recent becomes cached version
+            print("local \(localLastModified) remote: \(remoteLastModified)")
                 if max(remoteLastModified!, localLastModified!) == remoteLastModified {
 
                     self.getRemoteSource(url: url, completion: { tempUrl in
