@@ -161,8 +161,9 @@ extension AOSUniverse {
                 return
             })
         } else {
+            let fileName = "\(name)_\(type)_low.mp3"
             // Compare local file against remote
-            let localUrl = getCachedFile(assetpath: assetPath, type: type, text: name)
+            let localUrl = getCachedFile(assetpath: assetPath, type: type, text: fileName)
                 let localLastModified = getLastModifiedDate(for: localUrl.absoluteString)
                 
                 // most recent becomes cached version
