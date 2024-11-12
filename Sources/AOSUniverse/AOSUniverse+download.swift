@@ -153,7 +153,7 @@ extension AOSUniverse {
             print(remoteLastModified)
             if !fileIsInCache(assetpath: assetPath + [type], text: "\(name)_\(type)_low") {
             self.getRemoteSource(url: url, completion: { tempUrl in
-                let loadedUrl = moveFileToPath(assetpath: assetPath + [type], url: tempUrl!, text: name)
+                let loadedUrl = moveFileToPath(assetpath: assetPath, type: type, url: tempUrl!, text: name)
                 setLastModifiedDate(for: loadedUrl, to: remoteLastModified!)
 
                 result(loadedUrl)
@@ -168,7 +168,7 @@ extension AOSUniverse {
                 if max(remoteLastModified!, localLastModified!) == remoteLastModified {
 
                     self.getRemoteSource(url: url, completion: { tempUrl in
-                        let loadedUrl = moveFileToPath(assetpath: assetPath, url: tempUrl!, text: name)
+                        let loadedUrl = moveFileToPath(assetpath: assetPath, type: type, url: tempUrl!, text: name)
                         setLastModifiedDate(for: loadedUrl, to: remoteLastModified!)
                         result(loadedUrl)
                         return
