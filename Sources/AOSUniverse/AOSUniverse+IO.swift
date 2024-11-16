@@ -20,6 +20,7 @@ internal func getAssetUrl(assetpath: [String], type: String) -> URL {
         assetFolder = assetFolder.appendingPathComponent(asset, isDirectory: true)
     }
     assetFolder = assetFolder.appendingPathComponent(type, isDirectory: true)
+    print("getAssetUrl: \(assetFolder.absoluteString)")
     if !FileManager.default.fileExists(atPath: assetFolder.path) {
         print("creating asset folder: \(assetFolder.path())")
         return createAssetFolder(folder: assetFolder)
