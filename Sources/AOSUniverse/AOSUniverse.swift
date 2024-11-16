@@ -122,9 +122,20 @@ public final class AOSUniverse:ObservableObject {
     }
     
 internal func getRemoteAssetUrl( _ fileName: String, _ assetType: AssetType, _ type: AOSType)->URL {
-    return URL(string: baseUrl)!.appendingPathExtension(assetType.id).appendingPathExtension(type.id).appendingPathComponent(fileName)
+    return URL(string: baseUrl)!.appendingPathComponent(assetType.id).appendingPathComponent(type.id).appendingPathComponent(fileName)
     }
 
+    
+    internal func getRemoteAssetUrl( assetpath: [String], type: String, fileName: String)->URL {
+        var url = URL(string: baseUrl)!
+        for asset in assetpath {
+            url = url.appendingPathComponent(asset)
+        }
+        url = url.appendingPathComponent(type)
+        return url.appendingPathComponent(fileName)
+        }
+
+    
     internal func getLocalAssetUrl(body: AOSBody)->URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathExtension(AssetType.model.id).appendingPathExtension(body.type.id).appendingPathComponent(body.name)
         }

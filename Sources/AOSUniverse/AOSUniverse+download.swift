@@ -9,7 +9,7 @@ import Foundation
 import Zip
 
 extension AOSUniverse {
-
+    
     /** request returned data check
      */
     private func requestIsValid(error: Error?, response: URLResponse?, url: URL? = nil) -> Bool {
@@ -35,7 +35,7 @@ extension AOSUniverse {
         }
         return !gotError
     }
-
+    
     public func downloadAssetModel(bodies: [AOSBody], completion: @escaping (Bool) -> Void) {
         let serialQueue = DispatchQueue(label: "AOSUniverseDownloadQueue")
         
@@ -53,23 +53,7 @@ extension AOSUniverse {
             let modelUrl = getRemoteAssetUrl(body.getModelName(), .model, body.type)
             
             let operation = ModelDownloadOperation(session: URLSession.shared, dataTaskURL: modelUrl, completionHandler: { (data, response, error) in
-                var gotError = false
-                if error != nil {
-                    self.sysLog.append(AOSSysLog(log: .RequestError, message: error!.localizedDescription))
-                    gotError = true
-                }
-                if (response as? HTTPURLResponse) == nil  {
-                    self.sysLog.append(AOSSysLog(log: .RequestError, message: "response timed out"))
-                    gotError = true
-                }
-                let urlResponse = (response as! HTTPURLResponse)
-                if urlResponse.statusCode != 200 {
-                    let error = NSError(domain: "com.error", code: urlResponse.statusCode)
-                    self.sysLog.append(AOSSysLog(log: .RequestError, message: error.localizedDescription))
-                    gotError = true
-                }
-                
-                if !gotError {
+                if self.requestIsValid(error: error, response: response) {
                     self.unpackModel(at: modelUrl, body: body)
                     self.models.append(self.getSCNScene(body: body))
                     self.sysLog.append(AOSSysLog(log: .Ok, message: "\(modelUrl.lastPathComponent) downloaded"))
@@ -123,12 +107,32 @@ extension AOSUniverse {
         
         task.resume()
     }
-
+    
+    private func getRemoteManifest(url: URL, completion: @escaping (Manifest?) -> Void ) {
+        
+        let configuration = URLSessionConfiguration.ephemeral
+        let session = URLSession(configuration: configuration)
+        
+        let task = session.dataTask(with: url) { data, response, error in
+            
+            if self.requestIsValid(error: error, response: response) {
+                let decoder = JSONDecoder()
+                let manifest = try! decoder.decode(Manifest.se
+                                                   , from: data!)
+                completion(manifest)
+                return
+            }
+            completion(nil)
+        }
+        task.resume()
+    }
+    
+    
     private func getRemoteSource(url: URL, completion: @escaping (URL?) -> Void ) {
         
         let configuration = URLSessionConfiguration.ephemeral
         let session = URLSession(configuration: configuration)
-
+        
         let task = session.downloadTask(with: url) { tempUrl, response, error in
             
             if self.requestIsValid(error: error, response: response, url: tempUrl) {
@@ -136,60 +140,91 @@ extension AOSUniverse {
                 return
             }
             completion(nil)
+        }
+        task.resume()
     }
-    task.resume()
-    }
-
-    public func getUpdatedSource(assetPath: [String], type: String="interface", name:String, result: @escaping (URL) -> Void ) {
+    
+    public func updateResource(assetPath: [String], type: String, result: @escaping (Bool) -> Void ) {
+        
+        let localManifest = getManifest(assetpath: assetPath, type: type).manifest
         var url = URL(string: baseUrl)!
         for path in assetPath {
             url = url.appendingPathComponent(path, isDirectory: true)
         }
         url = url.appendingPathComponent(type, isDirectory: true)
-        url = url.appending(component: "\(name)_\(type)_low.mp3")
-        print(url.absoluteString)
-        // Get the lastModified date regardless
-        fetchLastModifiedDate(for: url, dateCompletion: { remoteLastModified in
-            print(remoteLastModified!)
-            if !fileIsInCache(assetpath: assetPath, type: type, text: "\(name)_\(type)_low.mp3") {
-                print("File does not exist")
-            self.getRemoteSource(url: url, completion: { tempUrl in
-                let loadedUrl = moveFileToPath(assetpath: assetPath, type: type, url: tempUrl!, text: name)
-                setLastModifiedDate(for: loadedUrl, to: remoteLastModified!)
-
-                result(loadedUrl)
-                return
-            })
-        } else {
-            let fileName = "\(name)_\(type)_low.mp3"
-            // Compare local file against remote
-            print("comparing files")
-            let localUrl = getCachedFile(assetpath: assetPath, type: type, text: fileName)
-            print("local URL:: \(localUrl)")
-            let localLastModified = getLastModifiedDate(for: localUrl.path())
-            print(localLastModified)
+        url = url.appending(component: "manifest.json")
+        
+        getRemoteManifest(url: url, completion: { payload in
+            // compare lastModified and add new resources
+            if let payload = payload {
+                let remoteManifest = payload.manifest
                 
-                // most recent becomes cached version
-            print("local \(localLastModified) remote: \(remoteLastModified)")
-                if max(remoteLastModified!, localLastModified!) == remoteLastModified {
-
-                    self.getRemoteSource(url: url, completion: { tempUrl in
-                        let loadedUrl = moveFileToPath(assetpath: assetPath, type: type, url: tempUrl!, text: name)
-                        setLastModifiedDate(for: loadedUrl, to: remoteLastModified!)
-                        result(loadedUrl)
-                        return
+                let localLastModified = localManifest.map{getLastModifiedDate(for: $0.lastModified)}
+                let remoteLastModified = remoteManifest.map{getLastModifiedDate(for: $0.lastModified)}
+                
+                var updates = [String]()
+                for (i, lastModified) in localLastModified.enumerated() {
+                    let remoteModified = remoteLastModified[i]
+                    if max(lastModified!, remoteModified!) == remoteModified! {
+                        updates.append(remoteManifest[i].name)
+                    }
+                }
+                if !updates.isEmpty || localManifest.isEmpty {
+                    // Save the new manifest to file
+                    createManifest(manifest: payload, url: url)
+                    // Serially download the new resources
+                    let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
+                    self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
+                        print("All assets downloaded")
                     })
-
-                    
-                } else {
-                    print("File exists")
-                    result(localUrl)
                 }
             }
-            
-        })
-
-    }
-    
-}
-
+                                       })
+                    
+                }
+                
+                
+                func getRemoteResources(assetpath: [String], type: String, urls: [URL], completion: @escaping (Bool) -> Void ) {
+                    let serialQueue = DispatchQueue(label: "resourcesDownloadQueue")
+                    
+                    var remainingUrls = [URL]()
+                    
+                    // Create a recursive function to handle the download
+                    func downloadNextResource() {
+                        guard !remainingUrls.isEmpty else {
+                            // All resources have been downloaded, call the completion handler
+                            completion(true)
+                            return
+                        }
+                        
+                        let resource = remainingUrls.removeFirst()
+                        let request = URLRequest(url: resource)
+                        
+                        let operation = AOSDirectDownloadTask(session: URLSession.shared, request: request, completionHandler: { (tempUrl, response, error) in
+                            
+                            if self.requestIsValid(error: error, response: response, url: tempUrl) {
+                                // Save the file
+                                let _ = moveFileToPath(assetpath: assetpath, type: type, url: tempUrl!, text: resource.lastPathComponent)
+                                
+                            }
+                            // Call the recursive function to download the next object
+                            serialQueue.async {
+                                downloadNextResource()
+                            }
+                            
+                        })
+                        // Add the operation to the serial queue to execute it serially
+                        serialQueue.async {
+                            operation.start()
+                        }
+                        
+                        // Start the download process by calling the recursive function
+                        serialQueue.async {
+                            downloadNextResource()
+                        }
+                    }
+                    
+                }
+                
+                
+            } // extension

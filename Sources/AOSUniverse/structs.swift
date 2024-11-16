@@ -112,3 +112,13 @@ public struct FilterCombinations:Codable {
     public let SpecializedFilters:[String]
     
 }
+
+
+public struct Manifest:Codable {
+    let manifest:[ManifestEntry]
+}
+
+public struct ManifestEntry:Codable {
+    let name:String
+    let lastModified:String
+}

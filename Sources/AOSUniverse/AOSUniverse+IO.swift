@@ -20,9 +20,7 @@ internal func getAssetUrl(assetpath: [String], type: String) -> URL {
         assetFolder = assetFolder.appendingPathComponent(asset, isDirectory: true)
     }
     assetFolder = assetFolder.appendingPathComponent(type, isDirectory: true)
-    print("getAssetUrl: \(assetFolder.absoluteString)")
     if !FileManager.default.fileExists(atPath: assetFolder.path) {
-        print("creating asset folder: \(assetFolder.path())")
         return createAssetFolder(folder: assetFolder)
 }
     return assetFolder
@@ -30,14 +28,12 @@ internal func getAssetUrl(assetpath: [String], type: String) -> URL {
 
 
 internal func getCachedFile(assetpath: [String], type: String, text: String) -> URL {
-    print("getCachedFile: \(text)")
     return getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent(text)
 }
 
 
 internal func fileIsInCache(assetpath: [String], type: String, text: String) -> Bool {
     let file = getCachedFile(assetpath: assetpath, type: type, text: text)
-    print("cache: \(file.path())")
     return FileManager.default.fileExists(atPath: file.path)
 }
 
@@ -88,6 +84,7 @@ public func getLastModifiedDate(for filePath: String) -> Date? {
     return nil
 }
 
+
 func setLastModifiedDate(for fileURL: URL, to date: Date) {
     let fileManager = FileManager.default
     
@@ -98,10 +95,31 @@ func setLastModifiedDate(for fileURL: URL, to date: Date) {
         // Set the attributes for the specified file
         try fileManager.setAttributes(attributes, ofItemAtPath: fileURL.path)
         
-        print("Successfully updated last modified date.")
     } catch {
         print("Error setting last modified date: \(error.localizedDescription)")
     }
 }
 
+func createManifest(manifest: Manifest, url: URL) {
+    do {
+    let encoder = JSONEncoder()
+    let jsonData = try encoder.encode(manifest)
+    try jsonData.write(to: url, options: .atomic)
+} catch let error {
+    print("createManifest: \(error.localizedDescription)")
+}
+}
+
+
+func getManifest(assetpath: [String], type: String)-> Manifest {
+    let url = getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent("manifest.json")
+    if !FileManager.default.fileExists(atPath: url.path()) {
+        let newManifest = Manifest(manifest: [ManifestEntry]())
+        createManifest(manifest: newManifest, url: url)
+    }
+                             let data = try? Data(contentsOf: url)
+    let decoder = JSONDecoder()
+    let manifest = try? decoder.decode(Manifest.self, from: data!)
+    return manifest!
+}
 
