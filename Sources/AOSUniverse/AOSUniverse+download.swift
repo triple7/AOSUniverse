@@ -165,8 +165,9 @@ extension AOSUniverse {
             // Compare local file against remote
             print("comparing files")
             let localUrl = getCachedFile(assetpath: assetPath, type: type, text: fileName)
-            print("local UR:: \(localUrl)")
-                let localLastModified = getLastModifiedDate(for: localUrl.absoluteString)
+            print("local URL:: \(localUrl)")
+            let localLastModified = getLastModifiedDate(for: localUrl.path())
+            print(localLastModified)
                 
                 // most recent becomes cached version
             print("local \(localLastModified) remote: \(remoteLastModified)")
