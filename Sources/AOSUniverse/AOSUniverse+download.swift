@@ -201,7 +201,7 @@ extension AOSUniverse {
                     let serialQueue = DispatchQueue(label: "resourcesDownloadQueue")
                     
                     print("starting downloads")
-                    var remainingUrls = [URL]()
+                    var remainingUrls = urls
                     
                     // Create a recursive function to handle the download
                     func downloadNextResource() {
@@ -234,11 +234,12 @@ extension AOSUniverse {
                             operation.start()
                         }
 
-                    }
+                    } // end of downloadNextResource
 
                     
                         // Start the download process by calling the recursive function
                         serialQueue.async {
+                            print("download next resource")
                             downloadNextResource()
                         }
                     
