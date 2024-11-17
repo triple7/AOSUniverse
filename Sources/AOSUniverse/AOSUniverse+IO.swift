@@ -125,12 +125,10 @@ func getManifest(assetpath: [String], type: String)-> Manifest {
         let newManifest = Manifest(manifest: [ManifestEntry]())
         createManifest(manifest: newManifest, url: url)
     }
-    print("manifest exists")
     let data = try? Data(contentsOf: url)
     let dataString = String(data: data!, encoding: .utf8)
     let decoder = JSONDecoder()
     let manifest = try? decoder.decode(Manifest.self, from: dataString!.data(using: .utf8)!)
-    print("Manifest is \(manifest)")
     return manifest!
 }
 

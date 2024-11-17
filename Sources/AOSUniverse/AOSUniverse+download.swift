@@ -165,6 +165,7 @@ extension AOSUniverse {
                 var updates = [String]()
                 if localLastModified.count == 0 {
                     // First manifest, download everything
+                    print("Downloading assets from scratch")
                     updates = remoteManifest.map{$0.name}
                 } else {
                     for (i, lastModified) in remoteLastModified.enumerated() {
@@ -175,6 +176,7 @@ extension AOSUniverse {
                     }
                 }
                 if !updates.isEmpty {
+                    print("updates not empty: \(updates)")
                     // Save the new manifest to file
                     let manifestUrl = getAssetUrl(assetpath: assetPath, type: type).appendingPathComponent("manifest.json")
                     createManifest(manifest: payload, url: manifestUrl)
