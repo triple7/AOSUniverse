@@ -164,7 +164,7 @@ extension AOSUniverse {
                 let remoteManifest = payload.manifest
                 
                 print(localManifest)
-                let localLastModified = localManifest.map{getLastModifiedDate(dateString: $0.name)}
+                let localLastModified = localManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
                 let remoteLastModified = remoteManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
                 
                 var updates = [String]()
