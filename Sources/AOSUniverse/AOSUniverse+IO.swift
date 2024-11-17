@@ -111,6 +111,7 @@ func setLastModifiedDate(for fileURL: URL, to date: Date) {
 }
 
 func createManifest(manifest: Manifest, url: URL) {
+    print(url.path())
     do {
     let encoder = JSONEncoder()
     let jsonData = try encoder.encode(manifest)
