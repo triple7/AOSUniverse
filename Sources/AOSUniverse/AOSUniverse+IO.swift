@@ -50,7 +50,7 @@ internal func createAssetFolder(folder: URL) -> URL {
 
 
 internal func moveFileToPath(assetpath: [String], type: String, url: URL, text: String) -> URL  {
-    let destinationUrl = getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent("\(text)_\(type)_low.mp3")
+    let destinationUrl = getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent(text)
     do {
         try FileManager.default.moveItem(at: url, to: destinationUrl)
         // Remove the temporary url
