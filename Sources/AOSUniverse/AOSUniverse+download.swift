@@ -187,7 +187,6 @@ extension AOSUniverse {
                     createManifest(manifest: payload, url: manifestUrl)
                     // Serially download the new resources
                     let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
-                    print(updatedUrls.map{$0.absoluteString})
                     self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
                         print("All assets downloaded")
                     })
@@ -201,6 +200,7 @@ extension AOSUniverse {
                 public func getRemoteResources(assetpath: [String], type: String, urls: [URL], completion: @escaping (Bool) -> Void ) {
                     let serialQueue = DispatchQueue(label: "resourcesDownloadQueue")
                     
+                    print("starting downloads")
                     var remainingUrls = [URL]()
                     
                     // Create a recursive function to handle the download
