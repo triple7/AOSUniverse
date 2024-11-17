@@ -170,8 +170,10 @@ extension AOSUniverse {
                 var updates = [String]()
                 if localLastModified.count == 0 {
                     // First manifest, download everything
+                    print("first manifest")
                     updates = remoteManifest.map{$0.name}
                 } else {
+                    print("updating local manifest")
                     for (i, lastModified) in remoteLastModified.enumerated() {
                         let remoteModified = remoteLastModified[i]
                         if max(lastModified!, remoteModified!) == remoteModified! {
@@ -185,6 +187,7 @@ extension AOSUniverse {
                     createManifest(manifest: payload, url: manifestUrl)
                     // Serially download the new resources
                     let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
+                    print(updatedUrls.map{$0.absoluteString})
                     self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
                         print("All assets downloaded")
                     })
