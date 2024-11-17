@@ -155,6 +155,7 @@ extension AOSUniverse {
         url = url.appending(component: "manifest.json")
         
         getRemoteManifest(url: url, completion: { payload in
+            print(self.sysLog)
             // compare lastModified and add new resources
             if let payload = payload {
                 let remoteManifest = payload.manifest
