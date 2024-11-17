@@ -180,7 +180,8 @@ extension AOSUniverse {
                 }
                 if !updates.isEmpty {
                     // Save the new manifest to file
-                    createManifest(manifest: payload, url: url)
+                    let manifestUrl = getAssetUrl(assetpath: assetPath, type: type).appendingPathComponent("manifest.json")
+                    createManifest(manifest: payload, url: manifestUrl)
                     // Serially download the new resources
                     let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
                     self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
