@@ -176,7 +176,7 @@ extension AOSUniverse {
                     print("updating local manifest")
                     for (i, lastModified) in remoteLastModified.enumerated() {
                         let remoteModified = remoteLastModified[i]
-                        if max(lastModified!, remoteModified!) == remoteModified! {
+                        if max(lastModified!, remoteModified!) == remoteModified! && lastModified != remoteModified! {
                             updates.append(remoteManifest[i].name)
                         }
                     }
