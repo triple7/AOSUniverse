@@ -162,11 +162,10 @@ extension AOSUniverse {
             if let payload = payload {
                 let remoteManifest = payload.manifest
                 
+                print(localManifest)
                 let localLastModified = localManifest.map{getLastModifiedDate(dateString: $0.name)}
                 let remoteLastModified = remoteManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
                 
-                print("local last modified")
-                print(localLastModified)
                 var updates = [String]()
                 if localLastModified.count == 0 {
                     // First manifest, download everything

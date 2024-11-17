@@ -71,6 +71,7 @@ public func getGmtDateFormatter() -> DateFormatter {
 
 
 public func getLastModifiedDate(dateString: String) -> Date? {
+    print("get last modified date: \(dateString)")
     let dateFormatter = getGmtDateFormatter()
     return dateFormatter.date(from: dateString)!
 }
