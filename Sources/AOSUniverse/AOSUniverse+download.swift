@@ -185,7 +185,7 @@ extension AOSUniverse {
                 }
                 
                 
-                func getRemoteResources(assetpath: [String], type: String, urls: [URL], completion: @escaping (Bool) -> Void ) {
+                public func getRemoteResources(assetpath: [String], type: String, urls: [URL], completion: @escaping (Bool) -> Void ) {
                     let serialQueue = DispatchQueue(label: "resourcesDownloadQueue")
                     
                     var remainingUrls = [URL]()
