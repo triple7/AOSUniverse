@@ -7,6 +7,33 @@
 
 import Foundation
 
+/** AOS Universe syslog
+ Used for logging all user interactions in:
+ * states
+ * AOS universe network API calls
+ expliration of celestial objects
+ 
+ */
+
+public struct AOSSysLog:CustomStringConvertible {
+    let timecode:String
+    let log:AOSLog
+    let message:String
+    
+    public init( log: AOSLog, message: String) {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        self.timecode = dateFormatter.string(from: date)
+        self.log = log
+                  self.message = message
+    }
+    
+    public var description:String {
+        return "\(log): \(message)"
+    }
+}
+
 public typealias Payload = AOSPayload
 
 public struct AOSPayload {

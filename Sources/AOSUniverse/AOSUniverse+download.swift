@@ -15,7 +15,6 @@ extension AOSUniverse {
     private func requestIsValid(error: Error?, response: URLResponse?, url: URL? = nil) -> Bool {
         var gotError = false
         if error != nil {
-            print(error!.localizedDescription)
             self.sysLog.append(AOSSysLog(log: .RequestError, message: error!.localizedDescription))
             gotError = true
         }
@@ -25,7 +24,6 @@ extension AOSUniverse {
         }
         let urlResponse = (response as! HTTPURLResponse)
         if urlResponse.statusCode != 200 {
-            print(urlResponse.statusCode)
             let error = NSError(domain: "com.error", code: urlResponse.statusCode)
             self.sysLog.append(AOSSysLog(log: .RequestError, message: error.localizedDescription))
             gotError = true
@@ -118,8 +116,6 @@ extension AOSUniverse {
         let task = session.dataTask(with: request, completionHandler: { data, response, error in
           
             if self.requestIsValid(error: error, response: response) {
-                let text = String(data: data!, encoding: .utf8)
-                print(text)
                 let decoder = JSONDecoder()
                 let manifest = try! decoder.decode(Manifest.self, from: data!)
                 completion(manifest)
@@ -163,17 +159,14 @@ extension AOSUniverse {
             if let payload = payload {
                 let remoteManifest = payload.manifest
                 
-                print(localManifest)
                 let localLastModified = localManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
                 let remoteLastModified = remoteManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
                 
                 var updates = [String]()
                 if localLastModified.count == 0 {
                     // First manifest, download everything
-                    print("first manifest")
                     updates = remoteManifest.map{$0.name}
                 } else {
-                    print("updating local manifest")
                     for (i, lastModified) in remoteLastModified.enumerated() {
                         let remoteModified = remoteLastModified[i]
                         if max(lastModified!, remoteModified!) == remoteModified! && lastModified != remoteModified! {
@@ -182,15 +175,12 @@ extension AOSUniverse {
                     }
                 }
                 if !updates.isEmpty {
-                    print("updates not empty ")
-                    print((updates))
                     // Save the new manifest to file
                     let manifestUrl = getAssetUrl(assetpath: assetPath, type: type).appendingPathComponent("manifest.json")
                     createManifest(manifest: payload, url: manifestUrl)
                     // Serially download the new resources
                     let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
                     self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
-                        print("All assets downloaded")
                     })
                 }
             }
@@ -202,7 +192,6 @@ extension AOSUniverse {
                 public func getRemoteResources(assetpath: [String], type: String, urls: [URL], completion: @escaping (Bool) -> Void ) {
                     let serialQueue = DispatchQueue(label: "resourcesDownloadQueue")
                     
-                    print("starting downloads")
                     var remainingUrls = urls
                     
                     // Create a recursive function to handle the download
@@ -214,12 +203,10 @@ extension AOSUniverse {
                         }
                         
                         let resource = remainingUrls.removeFirst()
-                        print("getting \(resource)")
                         let request = URLRequest(url: resource)
                         
                         let operation = AOSDirectDownloadTask(session: URLSession.shared, request: request, completionHandler: { (tempUrl, response, error) in
                             
-                            print("checking for url validation")
                             if self.requestIsValid(error: error, response: response, url: tempUrl) {
                                 // Save the file
                                 let _ = moveFileToPath(assetpath: assetpath, type: type, url: tempUrl!, text: resource.lastPathComponent)
@@ -241,7 +228,6 @@ extension AOSUniverse {
                     
                         // Start the download process by calling the recursive function
                         serialQueue.async {
-                            print("download next resource")
                             downloadNextResource()
                         }
                     

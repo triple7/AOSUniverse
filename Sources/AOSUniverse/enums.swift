@@ -68,7 +68,13 @@ public enum AssetType:String, Identifiable, CaseIterable {
 }
 
 
-public enum AOSNetworkError:Error {
+public enum AOSLog:Codable {
+// user patterns
+     case StateChanged
+    case ObjectSelect
+    case SetLocation
+    
+    // Network API calls
     case NoSuchObject
     case RequestError
     case DataCorrupted

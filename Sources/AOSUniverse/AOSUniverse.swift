@@ -2,28 +2,6 @@ import Foundation
 import Zip
 import SceneKit
 
-/** AOS Universe domain media download service
- */
-
-public struct AOSSysLog:CustomStringConvertible {
-    let timecode:String
-    let log:AOSNetworkError
-    let message:String
-    
-    public init( log: AOSNetworkError, message: String) {
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy--MM-dd hh:mm:ss"
-        self.timecode = dateFormatter.string(from: date)
-        self.log = log
-                  self.message = message
-    }
-    
-    public var description:String {
-        return "\(log): \(message)"
-    }
-}
-
 public final class AOSUniverse:ObservableObject {
     internal let baseUrl = "https://universe.oseyeris.com/serve/"
     public lazy var models:[SCNScene] = {
