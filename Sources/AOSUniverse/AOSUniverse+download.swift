@@ -109,6 +109,7 @@ extension AOSUniverse {
     
     private func getRemoteManifest(url: URL, completion: @escaping (Manifest?) -> Void ) {
         
+        print(url.absoluteString)
         let configuration = URLSessionConfiguration.ephemeral
         let session = URLSession(configuration: configuration)
         let request = URLRequest(url: url)
@@ -154,6 +155,7 @@ extension AOSUniverse {
         url = url.appendingPathComponent(type, isDirectory: true)
         url = url.appending(component: "manifest.json")
         
+        print("Getting remote manifest: \(url.absoluteString)")
         getRemoteManifest(url: url, completion: { payload in
             print(self.sysLog)
             // compare lastModified and add new resources
