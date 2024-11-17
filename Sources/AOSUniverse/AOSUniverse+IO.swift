@@ -73,8 +73,6 @@ public func getGmtDateFormatter() -> DateFormatter {
 public func getLastModifiedDate(dateString: String) -> Date? {
     print("get last modified date: \(dateString)")
     let dateFormatter = getGmtDateFormatter()
-    let test = dateFormatter.date(from: dateString)
-    print(test)
     return dateFormatter.date(from: dateString)!
 }
 
@@ -111,7 +109,6 @@ func setLastModifiedDate(for fileURL: URL, to date: Date) {
 }
 
 func createManifest(manifest: Manifest, url: URL) {
-    print(url.path())
     do {
     let encoder = JSONEncoder()
     let jsonData = try encoder.encode(manifest)
@@ -128,9 +125,12 @@ func getManifest(assetpath: [String], type: String)-> Manifest {
         let newManifest = Manifest(manifest: [ManifestEntry]())
         createManifest(manifest: newManifest, url: url)
     }
-                             let data = try? Data(contentsOf: url)
+    print("manifest exists")
+    let data = try? Data(contentsOf: url)
+    let dataString = String(data: data!, encoding: .utf8)
     let decoder = JSONDecoder()
-    let manifest = try? decoder.decode(Manifest.self, from: data!)
+    let manifest = try? decoder.decode(Manifest.self, from: dataString!.data(using: .utf8)!)
+    print("Manifest is \(manifest)")
     return manifest!
 }
 
