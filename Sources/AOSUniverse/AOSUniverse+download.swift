@@ -117,6 +117,8 @@ extension AOSUniverse {
         let task = session.dataTask(with: request, completionHandler: { data, response, error in
           
             if self.requestIsValid(error: error, response: response) {
+                let text = String(data: data!, encoding: .utf8)
+                print(text)
                 let decoder = JSONDecoder()
                 let manifest = try! decoder.decode(Manifest.self, from: data!)
                 completion(manifest)
