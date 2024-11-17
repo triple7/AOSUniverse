@@ -182,6 +182,8 @@ extension AOSUniverse {
                     }
                 }
                 if !updates.isEmpty {
+                    print("updates not empty ")
+                    print((updates))
                     // Save the new manifest to file
                     let manifestUrl = getAssetUrl(assetpath: assetPath, type: type).appendingPathComponent("manifest.json")
                     createManifest(manifest: payload, url: manifestUrl)
