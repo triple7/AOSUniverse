@@ -63,7 +63,7 @@ internal func moveFileToPath(assetpath: [String], type: String, url: URL, text: 
 
 public func getGmtDateFormatter() -> DateFormatter {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "E, dd MMM yyyy HH:mm:ss z"
+    dateFormatter.dateFormat = "YYYY-MM-DD HH:MM:SS"
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")
     dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
     return dateFormatter
@@ -73,6 +73,8 @@ public func getGmtDateFormatter() -> DateFormatter {
 public func getLastModifiedDate(dateString: String) -> Date? {
     print("get last modified date: \(dateString)")
     let dateFormatter = getGmtDateFormatter()
+    let test = dateFormatter.date(from: dateString)
+    print(test)
     return dateFormatter.date(from: dateString)!
 }
 
