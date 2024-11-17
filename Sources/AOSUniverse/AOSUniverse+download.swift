@@ -217,6 +217,7 @@ extension AOSUniverse {
                         
                         let operation = AOSDirectDownloadTask(session: URLSession.shared, request: request, completionHandler: { (tempUrl, response, error) in
                             
+                            print("checking for url validation")
                             if self.requestIsValid(error: error, response: response, url: tempUrl) {
                                 // Save the file
                                 let _ = moveFileToPath(assetpath: assetpath, type: type, url: tempUrl!, text: resource.lastPathComponent)
@@ -232,12 +233,14 @@ extension AOSUniverse {
                         serialQueue.async {
                             operation.start()
                         }
-                        
+
+                    }
+
+                    
                         // Start the download process by calling the recursive function
                         serialQueue.async {
                             downloadNextResource()
                         }
-                    }
                     
                 }
                 
