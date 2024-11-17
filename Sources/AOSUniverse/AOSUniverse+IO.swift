@@ -69,6 +69,13 @@ public func getGmtDateFormatter() -> DateFormatter {
     return dateFormatter
 }
 
+
+public func getLastModifiedDate(dateString: String) -> Date? {
+    let dateFormatter = getGmtDateFormatter()
+    return dateFormatter.date(from: dateString)!
+}
+
+
 public func getLastModifiedDate(for filePath: String) -> Date? {
     let fileManager = FileManager.default
 

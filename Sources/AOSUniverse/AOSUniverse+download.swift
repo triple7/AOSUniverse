@@ -162,20 +162,24 @@ extension AOSUniverse {
             if let payload = payload {
                 let remoteManifest = payload.manifest
                 
-                let localLastModified = localManifest.map{getLastModifiedDate(for: $0.lastModified)}
-                let remoteLastModified = remoteManifest.map{getLastModifiedDate(for: $0.lastModified)}
+                let localLastModified = localManifest.map{getLastModifiedDate(dateString: $0.name)}
+                let remoteLastModified = remoteManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
                 
                 var updates = [String]()
-                for (i, lastModified) in localLastModified.enumerated() {
-                    let remoteModified = remoteLastModified[i]
-                    if max(lastModified!, remoteModified!) == remoteModified! {
-                        updates.append(remoteManifest[i].name)
+                if localLastModified.count == 0 {
+                    // First manifest, download everything
+                    updates = remoteManifest.map{$0.name}
+                } else {
+                    for (i, lastModified) in remoteLastModified.enumerated() {
+                        let remoteModified = remoteLastModified[i]
+                        if max(lastModified!, remoteModified!) == remoteModified! {
+                            updates.append(remoteManifest[i].name)
+                        }
                     }
                 }
-                if !updates.isEmpty || localManifest.isEmpty {
+                if !updates.isEmpty {
                     // Save the new manifest to file
                     createManifest(manifest: payload, url: url)
-                    print(updates)
                     // Serially download the new resources
                     let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
                     self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
