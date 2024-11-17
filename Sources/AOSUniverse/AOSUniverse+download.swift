@@ -112,18 +112,19 @@ extension AOSUniverse {
         
         let configuration = URLSessionConfiguration.ephemeral
         let session = URLSession(configuration: configuration)
+        let request = URLRequest(url: url)
         
-        let task = session.dataTask(with: url) { data, response, error in
-            
+        let task = session.dataTask(with: request, completionHandler: { data, response, error in
+          
             if self.requestIsValid(error: error, response: response) {
                 let decoder = JSONDecoder()
-                let manifest = try! decoder.decode(Manifest.se
-                                                   , from: data!)
+                let manifest = try! decoder.decode(Manifest.self, from: data!)
                 completion(manifest)
                 return
             }
             completion(nil)
-        }
+        
+        })
         task.resume()
     }
     
