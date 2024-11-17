@@ -27,7 +27,7 @@ internal func getAssetUrl(assetpath: [String], type: String) -> URL {
 }
 
 
-internal func getCachedFile(assetpath: [String], type: String, text: String) -> URL {
+public func getCachedFile(assetpath: [String], type: String, text: String) -> URL {
     return getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent(text)
 }
 
