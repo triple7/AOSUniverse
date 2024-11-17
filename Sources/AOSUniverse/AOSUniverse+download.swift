@@ -109,7 +109,6 @@ extension AOSUniverse {
     
     private func getRemoteManifest(url: URL, completion: @escaping (Manifest?) -> Void ) {
         
-        print(url.absoluteString)
         let configuration = URLSessionConfiguration.ephemeral
         let session = URLSession(configuration: configuration)
         let request = URLRequest(url: url)
@@ -155,9 +154,7 @@ extension AOSUniverse {
         url = url.appendingPathComponent(type, isDirectory: true)
         url = url.appending(component: "manifest.json")
         
-        print("Getting remote manifest: \(url.absoluteString)")
         getRemoteManifest(url: url, completion: { payload in
-            print(self.sysLog)
             // compare lastModified and add new resources
             if let payload = payload {
                 let remoteManifest = payload.manifest
@@ -168,7 +165,6 @@ extension AOSUniverse {
                 var updates = [String]()
                 if localLastModified.count == 0 {
                     // First manifest, download everything
-                    print("Downloading assets from scratch")
                     updates = remoteManifest.map{$0.name}
                 } else {
                     for (i, lastModified) in remoteLastModified.enumerated() {
@@ -179,7 +175,6 @@ extension AOSUniverse {
                     }
                 }
                 if !updates.isEmpty {
-                    print("updates not empty: \(updates)")
                     // Save the new manifest to file
                     let manifestUrl = getAssetUrl(assetpath: assetPath, type: type).appendingPathComponent("manifest.json")
                     createManifest(manifest: payload, url: manifestUrl)
