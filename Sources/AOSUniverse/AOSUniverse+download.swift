@@ -25,6 +25,7 @@ extension AOSUniverse {
         }
         let urlResponse = (response as! HTTPURLResponse)
         if urlResponse.statusCode != 200 {
+            print(urlResponse.statusCode)
             let error = NSError(domain: "com.error", code: urlResponse.statusCode)
             self.sysLog.append(AOSSysLog(log: .RequestError, message: error.localizedDescription))
             gotError = true
@@ -208,6 +209,7 @@ extension AOSUniverse {
                         }
                         
                         let resource = remainingUrls.removeFirst()
+                        print("getting \(resource)")
                         let request = URLRequest(url: resource)
                         
                         let operation = AOSDirectDownloadTask(session: URLSession.shared, request: request, completionHandler: { (tempUrl, response, error) in
