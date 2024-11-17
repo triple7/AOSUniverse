@@ -175,6 +175,7 @@ extension AOSUniverse {
                 if !updates.isEmpty || localManifest.isEmpty {
                     // Save the new manifest to file
                     createManifest(manifest: payload, url: url)
+                    print(updates)
                     // Serially download the new resources
                     let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
                     self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
