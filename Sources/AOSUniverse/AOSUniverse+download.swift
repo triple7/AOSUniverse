@@ -144,15 +144,10 @@ extension AOSUniverse {
         task.resume()
     }
     
-    public func updateResource(assetPath: [String], type: String, result: @escaping (Bool) -> Void ) {
+    public func updateResource(assetPath: [String], type: String, result: @escaping ([URL]) -> Void ) {
         
         let localManifest = getManifest(assetpath: assetPath, type: type).manifest
-        var url = URL(string: baseUrl)!
-        for path in assetPath {
-            url = url.appendingPathComponent(path, isDirectory: true)
-        }
-        url = url.appendingPathComponent(type, isDirectory: true)
-        url = url.appending(component: "manifest.json")
+        let url = getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: "manifest.json")
         
         getRemoteManifest(url: url, completion: { payload in
             // compare lastModified and add new resources
@@ -180,7 +175,8 @@ extension AOSUniverse {
                     createManifest(manifest: payload, url: manifestUrl)
                     // Serially download the new resources
                     let updatedUrls = updates.map{self.getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
-                    self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { success in
+                    self.getRemoteResources(assetpath: assetPath, type: type, urls: updatedUrls, completion: { savedUrls in
+                        result(savedUrls)
                     })
                 }
             }
@@ -189,7 +185,7 @@ extension AOSUniverse {
                 }
                 
                 
-                public func getRemoteResources(assetpath: [String], type: String, urls: [URL], completion: @escaping (Bool) -> Void ) {
+    public func getRemoteResources(assetpath: [String], type: String, urls: [URL], completion: @escaping  ([URL]) -> Void) {
                     let serialQueue = DispatchQueue(label: "resourcesDownloadQueue")
                     
                     var remainingUrls = urls
@@ -201,13 +197,13 @@ extension AOSUniverse {
                     configuration.waitsForConnectivity = false
                     let session = URLSession(configuration: configuration)
 
-                    
+                    var output = [URL]()
                     
                     // Create a recursive function to handle the download
                     func downloadNextResource() {
                         guard !remainingUrls.isEmpty else {
                             // All resources have been downloaded, call the completion handler
-                            completion(true)
+                            completion(output)
                             return
                         }
                         
@@ -218,8 +214,9 @@ extension AOSUniverse {
                             
                             if self.requestIsValid(error: error, response: response, url: tempUrl) {
                                 // Save the file
-                                let _ = moveFileToPath(assetpath: assetpath, type: type, url: tempUrl!, text: resource.lastPathComponent)
+                                let savedUrl = moveFileToPath(assetpath: assetpath, type: type, url: tempUrl!, text: resource.lastPathComponent)
                                 
+                                output.append(savedUrl)
                             }
                             // Call the recursive function to download the next object
                             serialQueue.async {
@@ -242,5 +239,18 @@ extension AOSUniverse {
                     
                 }
                 
-                
+
+    
+    public func getResources(assetPath: [String], type: String, sources: [String], preview: Bool = false, completion: @escaping ([URL]) -> Void) {
+        var sources = sources
+        if preview {
+            sources = sources.map{"thumb_\($0)"}
+        }
+        let remoteUrls = sources.map{getRemoteAssetUrl(assetpath: assetPath, type: type, fileName: $0)}
+        self.getRemoteResources(assetpath: assetPath, type: type, urls: remoteUrls, completion: { localUrls in
+            completion(localUrls)
+        })
+
+    }
+        
             } // extension
