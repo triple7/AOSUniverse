@@ -109,7 +109,7 @@ extension AOSUniverse {
     
     private func getRemoteManifest(url: URL, completion: @escaping (Manifest?) -> Void ) {
         
-        let configuration = URLSessionConfiguration.ephemeral
+        let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
         let request = URLRequest(url: url)
         
@@ -130,7 +130,7 @@ extension AOSUniverse {
     
     private func getRemoteSource(url: URL, completion: @escaping (URL?) -> Void ) {
         
-        let configuration = URLSessionConfiguration.ephemeral
+        let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
         
         let task = session.downloadTask(with: url) { tempUrl, response, error in
@@ -194,6 +194,15 @@ extension AOSUniverse {
                     
                     var remainingUrls = urls
                     
+                    let configuration = URLSessionConfiguration.default
+                    // Optimise the session network config
+                    configuration.httpShouldUsePipelining = true
+                    configuration.httpMaximumConnectionsPerHost = 10
+                    configuration.waitsForConnectivity = false
+                    let session = URLSession(configuration: configuration)
+
+                    
+                    
                     // Create a recursive function to handle the download
                     func downloadNextResource() {
                         guard !remainingUrls.isEmpty else {
@@ -205,7 +214,7 @@ extension AOSUniverse {
                         let resource = remainingUrls.removeFirst()
                         let request = URLRequest(url: resource)
                         
-                        let operation = AOSDirectDownloadTask(session: URLSession.shared, request: request, completionHandler: { (tempUrl, response, error) in
+                        let operation = AOSDirectDownloadTask(session: session, request: request, completionHandler: { (tempUrl, response, error) in
                             
                             if self.requestIsValid(error: error, response: response, url: tempUrl) {
                                 // Save the file

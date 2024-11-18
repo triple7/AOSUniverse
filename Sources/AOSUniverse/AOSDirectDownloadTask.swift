@@ -35,7 +35,6 @@ class AOSDirectDownloadTask: Operation, @unchecked Sendable {
   
     init(session: URLSession, request: URLRequest, completionHandler: ((URL?, URLResponse?, Error?) -> Void)?) {
         super.init()
-        print("URL: \(request.url!.absoluteString)")
         
         // use weak self to prevent retain cycle
         task = session.downloadTask(with: request, completionHandler: { [weak self] (tempUrl, response, error) in
