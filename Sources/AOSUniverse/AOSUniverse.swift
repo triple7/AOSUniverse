@@ -89,13 +89,15 @@ public final class AOSUniverse:ObservableObject {
     internal func unpackScn(at url: URL, body: AOSBody) -> [SCNScene] {
         do{
             print("tempUrl: \(url.absoluteString)")
-            let unzipDirectory = try Zip.quickUnzipFile(url)
+            let zipFilename = url.lastPathComponent.replacingOccurrences(of: ".temp", with: ".zip")
+            let zipUrl = url.deletingLastPathComponent().appendingPathComponent(zipFilename)
+            let unzipDirectory = try Zip.quickUnzipFile(zipUrl)
             print("Unzipped")
             let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
 
             print(folder)
             let urls = folder.filter{ $0.contains(".scn") }.map{Foundation.URL(fileURLWithPath: $0)}
-            let saveUrls = urls.map{moveFileToPath(assetpath: [body.type.id, "models"], type: "", url: $0, text: url.lastPathComponent)}
+            let saveUrls = urls.map{moveFileToPath(assetpath: [body.type.id, "models"], type: "", url: $0, text: $0.lastPathComponent)}
             
             return saveUrls.map{try! SCNScene(url: $0)}
         }catch let error{
