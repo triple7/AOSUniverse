@@ -63,7 +63,7 @@ extension AOSUniverse {
             }
             
             let body = remainingBodies.removeFirst()
-            let modelUrl = getRemoteAssetUrl(body.getModelName(), .model, body.type)
+            let modelUrl = getRemoteAssetUrl(assetpath: [body.type.id, "models"], type: "", fileName: "\(body.id)_scn.zip")
             
             print(modelUrl)
             let operation = ModelDownloadOperation(session: session, downloadTaskUrl: modelUrl, completionHandler: { (tempUrl, response, error) in
