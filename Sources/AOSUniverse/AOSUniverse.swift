@@ -88,11 +88,13 @@ public final class AOSUniverse:ObservableObject {
     
     internal func unpackScn(at url: URL, body: AOSBody) -> [SCNScene] {
         do{
-            var zipFilename = url.lastPathComponent
-            zipFilename = zipFilename.replacingOccurrences(of: ".temp", with: ".zip")
-            let zipUrl = url.deletingLastPathComponent().appendingPathComponent(zipFilename)
-            print(zipUrl)
-            let unzipDirectory = try Zip.quickUnzipFile(zipUrl)
+            print(url.absoluteString)
+            let data = try! Data(contentsOf: url)
+
+            let targetUrl = getLocalAssetUrl(body: body).appendingPathComponent("\(body.id).zip")
+            print("targetUrl: \(targetUrl.absoluteString)")
+            try data.write(to: targetUrl)
+            let unzipDirectory = try Zip.quickUnzipFile(targetUrl)
             print("Unzipped")
             let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
 
@@ -140,7 +142,7 @@ internal func getRemoteAssetUrl( _ fileName: String, _ assetType: AssetType, _ t
 
     
     internal func getLocalAssetUrl(body: AOSBody)->URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathExtension(AssetType.model.id).appendingPathExtension(body.type.id).appendingPathComponent(body.name)
+        return getAssetUrl(assetpath: [body.type.id, "models"], type: "\(body.id)")
         }
 
     internal func getSCNScene( body: AOSBody)-> SCNScene {
