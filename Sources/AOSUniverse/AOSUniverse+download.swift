@@ -68,7 +68,7 @@ extension AOSUniverse {
             print(modelUrl)
             let operation = ModelDownloadOperation(session: session, downloadTaskUrl: modelUrl, completionHandler: { (tempUrl, response, error) in
                 if self.requestIsValid(error: error, response: response, url: tempUrl) {
-                    output.append(contentsOf: self.unpackScn(at: tempUrl, body: body))
+                    output.append(self.unpackScn(at: tempUrl, body: body)!)
                     self.sysLog.append(AOSSysLog(log: .Ok, message: "\(modelUrl.lastPathComponent) downloaded"))
                 } else {
                     // get generic model for given body type

@@ -1,6 +1,13 @@
 import Foundation
 import Zip
 import SceneKit
+#if os(iOS)
+import UIKit
+public typealias Image = UIImage
+#elseif os(macOS)
+import AppKit
+public typealias Image = NSImage
+#endif
 
 public final class AOSUniverse:ObservableObject {
     internal let baseUrl = "https://universe.oseyeris.com/serve/"
@@ -57,59 +64,37 @@ public final class AOSUniverse:ObservableObject {
         }
     }
 
-    internal func unpackModel(at url: URL, body: AOSBody) -> AssetPayload {
-        do{
-            let unzipDirectory = try Zip.quickUnzipFile(url)
-            let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
-
-            let assetQuality = AssetQuality.Unknown.getQuality(folder: folder)
-            
-            let objs = folder.filter{ $0.contains(".obj")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path()}
-            var modelFiles = [String:String]()
-            for (i, obj) in objs.enumerated() {
-                modelFiles[obj.components(separatedBy: ".").last!] = obj
-            }
-            let textures = folder.filter{$0.contains(".jpg")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path()}
-            
-            var textureFiles = [String:Texture]()
-            
-                                                  let bumpMaps = textures.filter{$0.contains("_bump")}
-            let diffusemaps = textures.filter{!$0.contains("_bump")}
-            let mtl = folder.filter{$0.contains(".mtl")}.map{unzipDirectory.appendingPathComponent($0, isDirectory: false).path}
-
-            return AssetPayload(assetQuality: assetQuality, modelFiles: modelFiles, textureFiles: textureFiles, mtl: mtl.count > 0 ? mtl.first! : nil)
-        }catch let error{
-            assertionFailure(error.localizedDescription)
-        }
-        
-        return AssetPayload(assetQuality: .Unknown, modelFiles: [String: String](), textureFiles: [String: Texture]())
-    }
-    
-    
-    internal func unpackScn(at url: URL, body: AOSBody) -> [SCNScene] {
+    internal func unpackScn(at url: URL, body: AOSBody) -> SCNScene? {
         do{
             print(url.absoluteString)
             let data = try! Data(contentsOf: url)
 
-            let targetUrl = getLocalAssetUrl(body: body).appendingPathComponent("\(body.id).zip")
+            let targetUrl = getLocalAssetUrl(body: body).appendingPathExtension("zip")
             print("targetUrl: \(targetUrl.absoluteString)")
             try data.write(to: targetUrl)
             let unzipDirectory = try Zip.quickUnzipFile(targetUrl)
-            print("Unzipped")
             let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
 
-            print(folder)
-            let urls = folder.filter{ $0.contains(".scn") }.map{Foundation.URL(fileURLWithPath: $0)}
-            let saveUrls = urls.map{moveFileToPath(assetpath: [body.type.id, "models"], type: "", url: $0, text: $0.lastPathComponent)}
-            
-            return saveUrls.map{try! SCNScene(url: $0)}
+            let sceneFile = folder.filter{$0.contains(".scn")}.first!
+            let jpegFiles = folder.filter{$0.contains(".jpg")}
+            // TODO: filter per material component
+            let scene = try SCNScene(url: unzipDirectory.appendingPathComponent(sceneFile))
+            if jpegFiles.count != 0 {
+                let image = Image(contentsOf: unzipDirectory.appendingPathComponent(jpegFiles.first!))
+                let material = SCNMaterial()
+                material.diffuse.contents = image
+                scene.rootNode.childNodes.forEach { node in
+                    node.geometry?.materials = [material]
+                    node.geometry?.firstMaterial?.displacement.contents = material
+                }
+            }
+            return scene
         }catch let error{
             print("error: \(error.localizedDescription)")
             assertionFailure(error.localizedDescription)
+            return nil
         }
         
-        print("going nowhere")
-        return []
     }
 
     private func clearTempDirectory(_ url: URL, _ folder: [String]){
@@ -145,18 +130,6 @@ internal func getRemoteAssetUrl( _ fileName: String, _ assetType: AssetType, _ t
         return getAssetUrl(assetpath: [body.type.id, "models"], type: "\(body.id)")
         }
 
-    internal func getSCNScene( body: AOSBody)-> SCNScene {
-        let url = getLocalAssetUrl(body: body)
-        do {
-            let scene = try SCNScene(url: url)
-            return scene
-        } catch let error {
-            assertionFailure(error.localizedDescription)
-        }
-                             // Should not get here
-                             return SCNScene()
-    }
-    
                              internal func getGenericModel(type: AOSType)->SCNScene {
                 return SCNScene(named: type.id)!
             }
