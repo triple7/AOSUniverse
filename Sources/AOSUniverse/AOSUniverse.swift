@@ -73,15 +73,15 @@ public final class AOSUniverse:ObservableObject {
             print("pathUrl: \(targetpath.absoluteString)")
             let targetUrl = targetpath.appendingPathComponent("\(body.id).zip", isDirectory: false)
             try data.write(to: targetUrl)
-            let unzipDirectory = try Zip.quickUnzipFile(targetUrl)
-            let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
+            let unzipDirectory = try Zip.unzipFile(targetUrl, destination: targetpath, overwrite: true, password: nil)
+            let folder = try FileManager.default.contentsOfDirectory(atPath: targetpath.path())
 
             let sceneFile = folder.filter{$0.contains(".scn")}.first!
             let jpegFiles = folder.filter{$0.contains(".jpg")}
             // TODO: filter per material component
-            let scene = try SCNScene(url: unzipDirectory.appendingPathComponent(sceneFile))
+            let scene = try SCNScene(url: targetpath.appendingPathComponent(sceneFile))
             if jpegFiles.count != 0 {
-                let image = Image(contentsOf: unzipDirectory.appendingPathComponent(jpegFiles.first!))
+                let image = Image(contentsOf: targetpath.appendingPathComponent(jpegFiles.first!))
                 let material = SCNMaterial()
                 material.diffuse.contents = image
                 scene.rootNode.childNodes.forEach { node in
