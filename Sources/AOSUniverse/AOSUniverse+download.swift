@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SceneKit
 import Zip
 
 extension AOSUniverse {
@@ -34,33 +35,45 @@ extension AOSUniverse {
         }
         return !gotError
     }
+
     
-    public func downloadAssetModel(bodies: [AOSBody], completion: @escaping (Bool) -> Void) {
+    private func getOptimisedUrlSession() -> URLSession {
+        let configuration = URLSessionConfiguration.default
+        // Optimise the session network config
+        configuration.httpShouldUsePipelining = true
+        configuration.httpMaximumConnectionsPerHost = 10
+        configuration.waitsForConnectivity = false
+        return URLSession(configuration: configuration)
+    }
+    
+    
+    public func downloadAssetModel(bodies: [AOSBody], completion: @escaping ([SCNScene]) -> Void) {
         let serialQueue = DispatchQueue(label: "AOSUniverseDownloadQueue")
         
+        let session = getOptimisedUrlSession()
         var remainingBodies = bodies
+        var output = [SCNScene]()
         
         // Create a recursive function to handle the download
         func downloadNextBody() {
             guard !remainingBodies.isEmpty else {
                 // All URLs have been downloaded, call the completion handler
-                completion(true)
+                completion(output)
                 return
             }
             
             let body = remainingBodies.removeFirst()
             let modelUrl = getRemoteAssetUrl(body.getModelName(), .model, body.type)
             
-            let operation = ModelDownloadOperation(session: URLSession.shared, dataTaskURL: modelUrl, completionHandler: { (data, response, error) in
-                if self.requestIsValid(error: error, response: response) {
-                    self.unpackModel(at: modelUrl, body: body)
-                    self.models.append(self.getSCNScene(body: body))
+            let operation = ModelDownloadOperation(session: session, downloadTaskUrl: modelUrl, completionHandler: { (tempUrl, response, error) in
+                if self.requestIsValid(error: error, response: response, url: tempUrl) {
+           
+                    output.append(contentsOf: self.unpackScn(at: tempUrl, body: body))
                     self.sysLog.append(AOSSysLog(log: .Ok, message: "\(modelUrl.lastPathComponent) downloaded"))
-                    completion(true)
                 } else {
                     // get generic model for given body type
-                    self.models.append(self.getGenericModel(type: body.type))
-                    completion(true)
+                    output.append(self.getGenericModel(type: body.type))
+                    self.sysLog.append(AOSSysLog(log: .Ok, message: "Generic \(body.type.id) used"))
                 }
                 
                 // Call the recursive function to download the next url
@@ -94,7 +107,7 @@ extension AOSUniverse {
             }
             
             if let lastModifiedString = httpResponse.allHeaderFields["Last-Modified"] as? String {
-                let dateFormatter = getGmtDateFormatter()
+                let dateFormatter = self.getGmtDateFormatter()
                 if let lastModifiedDate = dateFormatter.date(from: lastModifiedString) {
                     dateCompletion(lastModifiedDate)
                     return
@@ -154,8 +167,8 @@ extension AOSUniverse {
             if let payload = payload {
                 let remoteManifest = payload.manifest
                 
-                let localLastModified = localManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
-                let remoteLastModified = remoteManifest.map{getLastModifiedDate(dateString: $0.lastModified)}
+                let localLastModified = localManifest.map{self.getLastModifiedDate(dateString: $0.lastModified)}
+                let remoteLastModified = remoteManifest.map{self.getLastModifiedDate(dateString: $0.lastModified)}
                 
                 var updates = [String]()
                 if localLastModified.count == 0 {
@@ -190,13 +203,7 @@ extension AOSUniverse {
                     
                     var remainingUrls = urls
                     
-                    let configuration = URLSessionConfiguration.default
-                    // Optimise the session network config
-                    configuration.httpShouldUsePipelining = true
-                    configuration.httpMaximumConnectionsPerHost = 10
-                    configuration.waitsForConnectivity = false
-                    let session = URLSession(configuration: configuration)
-
+                    let session = getOptimisedUrlSession()
                     var output = [URL]()
                     
                     // Create a recursive function to handle the download

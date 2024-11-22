@@ -9,7 +9,7 @@ import Foundation
 
 class ModelDownloadOperation : Operation {
     
-    private var task : URLSessionDataTask!
+    private var task : URLSessionDownloadTask!
     
     enum OperationState : Int {
         case ready
@@ -34,11 +34,11 @@ class ModelDownloadOperation : Operation {
     override var isExecuting: Bool { return state == .executing }
     override var isFinished: Bool { return state == .finished }
   
-    init(session: URLSession, dataTaskURL: URL, completionHandler: ((Data?, URLResponse?, Error?) -> Void)?) {
+    init(session: URLSession, downloadTaskUrl: URL, completionHandler: ((URL, URLResponse?, Error?) -> Void)?) {
         super.init()
         
         // use weak self to prevent retain cycle
-        task = session.dataTask(with: dataTaskURL, completionHandler: { [weak self] (data, response, error) in
+        task = session.downloadTask(with: downloadTaskUrl, completionHandler: { [weak self] (tempUrl, response, error) in
             
             /*
             if there is a custom completionHandler defined,
@@ -46,7 +46,7 @@ class ModelDownloadOperation : Operation {
             custom completionHandler
             */
             if let completionHandler = completionHandler {
-                completionHandler(data, response, error)
+                completionHandler(tempUrl!, response, error)
             }
             
            /*

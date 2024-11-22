@@ -86,7 +86,7 @@ public struct AOSBody:Codable {
     }
     
     public func getModelName()->String {
-        return "\(id).scn"
+        return "\(id)_scn.zip"
     }
     
     public mutating func setRadiusOfGeometry(radiusGeometry: Float) {

@@ -85,6 +85,23 @@ public final class AOSUniverse:ObservableObject {
         return AssetPayload(assetQuality: .Unknown, modelFiles: [String: String](), textureFiles: [String: Texture]())
     }
     
+    
+    internal func unpackScn(at url: URL, body: AOSBody) -> [SCNScene] {
+        do{
+            let unzipDirectory = try Zip.quickUnzipFile(url)
+            let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
+
+            let urls = folder.filter{ $0.contains(".scn") }.map{Foundation.URL(fileURLWithPath: $0)}
+            let saveUrls = urls.map{moveFileToPath(assetpath: [body.type.id, "models"], type: "", url: $0, text: url.lastPathComponent)}
+            
+            return saveUrls.map{try! SCNScene(url: $0)}
+        }catch let error{
+            assertionFailure(error.localizedDescription)
+        }
+        
+        return []
+    }
+
     private func clearTempDirectory(_ url: URL, _ folder: [String]){
         for f in folder{
             do{
