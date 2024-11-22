@@ -90,9 +90,10 @@ public final class AOSUniverse:ObservableObject {
         do{
             print("tempUrl: \(url.absoluteString)")
             let data = try! Data(contentsOf: url)
-            print(data.count)
-            let zipFilename = url.lastPathComponent.replacingOccurrences(of: ".temp", with: ".zip")
-            let zipUrl = url.deletingLastPathComponent().appendingPathComponent(zipFilename)
+            let zipFilename = url.lastPathComponent
+            print("zip ifleName: \(zipFilename)")
+            
+            let zipUrl = url.deletingLastPathComponent().appendingPathExtension(".zip")
             print(zipUrl)
             let unzipDirectory = try Zip.quickUnzipFile(zipUrl)
             print("Unzipped")
