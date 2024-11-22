@@ -88,7 +88,9 @@ public final class AOSUniverse:ObservableObject {
     
     internal func unpackScn(at url: URL, body: AOSBody) -> [SCNScene] {
         do{
+            print("tempUrl: \(url.absoluteString)")
             let unzipDirectory = try Zip.quickUnzipFile(url)
+            print("Unzipped")
             let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
 
             print(folder)
