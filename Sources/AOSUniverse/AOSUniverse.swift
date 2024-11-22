@@ -66,14 +66,12 @@ public final class AOSUniverse:ObservableObject {
 
     internal func unpackScn(at url: URL, body: AOSBody) -> SCNScene? {
         do{
-            print(url.absoluteString)
             let data = try! Data(contentsOf: url)
 
             let targetpath = getLocalAssetUrl(body: body)
-            print("pathUrl: \(targetpath.absoluteString)")
             let targetUrl = targetpath.appendingPathComponent("\(body.id).zip", isDirectory: false)
             try data.write(to: targetUrl)
-            let unzipDirectory = try Zip.unzipFile(targetUrl, destination: targetpath, overwrite: true, password: nil)
+            try Zip.unzipFile(targetUrl, destination: targetpath, overwrite: true, password: nil)
             let folder = try FileManager.default.contentsOfDirectory(atPath: targetpath.path())
 
             let sceneFile = folder.filter{$0.contains(".scn")}.first!
@@ -89,6 +87,8 @@ public final class AOSUniverse:ObservableObject {
                     node.geometry?.firstMaterial?.displacement.contents = material
                 }
             }
+            // Delete zip file
+            try FileManager.default.removeItem(at: targetUrl)
             return scene
         }catch let error{
             print("error: \(error.localizedDescription)")
