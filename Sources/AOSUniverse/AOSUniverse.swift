@@ -71,7 +71,7 @@ public final class AOSUniverse:ObservableObject {
 
             let targetpath = getLocalAssetUrl(body: body)
             print("pathUrl: \(targetpath.absoluteString)")
-            let targetUrl = targetpath.appendingPathComponent("\(body.type.id).zip", isDirectory: false)
+            let targetUrl = targetpath.appendingPathComponent("\(body.id).zip", isDirectory: false)
             try data.write(to: targetUrl)
             let unzipDirectory = try Zip.quickUnzipFile(targetUrl)
             let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
