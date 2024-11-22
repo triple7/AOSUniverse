@@ -70,6 +70,7 @@ public final class AOSUniverse:ObservableObject {
             let data = try! Data(contentsOf: url)
 
             let pathUrl = getLocalAssetUrl(body: body)
+            print("pathUrl: \(pathUrl)")
             var targetFile = pathUrl.absoluteString
             targetFile = targetFile.replacingOccurrences(of: "\(body.type.id)/", with: "\(body.type.id).zip")
             let targetUrl = Foundation.URL(fileURLWithPath: targetFile)
