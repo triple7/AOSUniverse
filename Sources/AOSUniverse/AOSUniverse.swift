@@ -69,7 +69,10 @@ public final class AOSUniverse:ObservableObject {
             print(url.absoluteString)
             let data = try! Data(contentsOf: url)
 
-            let targetUrl = getLocalAssetUrl(body: body).appendingPathExtension("zip")
+            let pathUrl = getLocalAssetUrl(body: body)
+            var targetFile = pathUrl.absoluteString
+            targetFile = targetFile.replacingOccurrences(of: "\(body.type.id)/", with: "\(body.type.id).zip")
+            let targetUrl = Foundation.URL(fileURLWithPath: "\(targetFile).zip")
             print("targetUrl: \(targetUrl.absoluteString)")
             try data.write(to: targetUrl)
             let unzipDirectory = try Zip.quickUnzipFile(targetUrl)
