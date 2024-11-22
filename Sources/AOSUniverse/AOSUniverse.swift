@@ -97,9 +97,11 @@ public final class AOSUniverse:ObservableObject {
             
             return saveUrls.map{try! SCNScene(url: $0)}
         }catch let error{
+            print("error: \(error.localizedDescription)")
             assertionFailure(error.localizedDescription)
         }
         
+        print("going nowhere")
         return []
     }
 
