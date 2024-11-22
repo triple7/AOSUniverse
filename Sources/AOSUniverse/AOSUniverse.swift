@@ -87,11 +87,11 @@ public final class AOSUniverse:ObservableObject {
     
     
     internal func unpackScn(at url: URL, body: AOSBody) -> [SCNScene] {
-        print("unpacking zip file")
         do{
             let unzipDirectory = try Zip.quickUnzipFile(url)
             let folder = try FileManager.default.contentsOfDirectory(atPath: unzipDirectory.path)
 
+            print(folder)
             let urls = folder.filter{ $0.contains(".scn") }.map{Foundation.URL(fileURLWithPath: $0)}
             let saveUrls = urls.map{moveFileToPath(assetpath: [body.type.id, "models"], type: "", url: $0, text: url.lastPathComponent)}
             
