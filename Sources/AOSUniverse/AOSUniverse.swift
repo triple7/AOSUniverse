@@ -77,7 +77,7 @@ public final class AOSUniverse:ObservableObject {
                 scene = try SCNScene(url: targetpath.appendingPathComponent(sceneFile))
                 if jpegFiles.count != 0 {
                     let jpegUrl = targetpath.appendingPathComponent(jpegFiles.first!)
-                    let image = UIImage(contentsofFile: jpegUrl.path())
+                    let image = UIImage(contentsOfFile: jpegUrl.path())
 
                     let material = SCNMaterial()
                     material.diffuse.contents = image
