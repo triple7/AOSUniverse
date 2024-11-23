@@ -4,8 +4,12 @@ import SceneKit
 
 #if os(iOS)
 import UIKit
+public typealias Image = UIImage
+public typealias Label = UILabel
 #elseif os(macOS)
 import AppKit
+public typealias Image = NSImage
+public typealias Label = NSTextField
 #endif
 
 public final class AOSUniverse:ObservableObject {
@@ -20,7 +24,8 @@ public final class AOSUniverse:ObservableObject {
     public lazy var sysLog:[AOSSysLog] = {
         return [AOSSysLog]()
     }()
-
+    internal var progressLabel:Label?
+    
     public static let shared = AOSUniverse()
 
     private init() {
@@ -76,17 +81,13 @@ public final class AOSUniverse:ObservableObject {
             var scene:SCNScene
             let jpegFiles = folder.filter{$0.contains(".jpg")}
 
-            if let sceneFile = folder.filter{$0.contains(".scn")}.first {
+            if let sceneFile = (folder.filter{ $0.contains(".scn") }).first {
                 // TODO: filter per material component
                 // TODO: all remote files should be packaged as zipped scn
                 scene = try SCNScene(url: targetpath.appendingPathComponent(sceneFile))
                 if jpegFiles.count != 0 {
                     let jpegUrl = targetpath.appendingPathComponent(jpegFiles.first!)
-#if os(iOS)
-                    let image = UIImage(contentsOfFile: jpegUrl.path())
-#elseif os(macOS)
-                    let image = NSImage(contentsOfFile: jpegUrl.path())
-#endif
+                    let image = Image(contentsOfFile: jpegUrl.path())
                     let material = SCNMaterial()
                     material.diffuse.contents = image
                     scene.rootNode.childNodes.forEach { node in
@@ -149,8 +150,8 @@ internal func getRemoteAssetUrl( _ fileName: String, _ assetType: AssetType, _ t
                 return SCNScene(named: type.id)!
             }
                              
-    public func getBodyModel( body: AOSBody, completion: @escaping (SCNScene)-> Void) {
-        downloadAssetModel(bodies: [body], completion: { result in
+    public func getBodyModel( body: AOSBody, progressLabel: Label, completion: @escaping (SCNScene)-> Void) {
+        downloadAssetModel(bodies: [body], progressLabel: progressLabel, completion: { result in
             completion(self.models.removeFirst())
         })
     }

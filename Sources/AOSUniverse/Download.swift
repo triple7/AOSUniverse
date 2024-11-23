@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ModelDownloadOperation : Operation {
+class ModelDownloadOperation : Operation, @unchecked Sendable{
     
     private var task : URLSessionDownloadTask!
     

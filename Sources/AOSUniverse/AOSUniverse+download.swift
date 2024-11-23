@@ -47,9 +47,10 @@ extension AOSUniverse {
     }
     
     
-    public func downloadAssetModel(bodies: [AOSBody], completion: @escaping ([SCNScene]) -> Void) {
+    public func downloadAssetModel(bodies: [AOSBody], progressLabel: Label?, completion: @escaping ([SCNScene]) -> Void) {
         let serialQueue = DispatchQueue(label: "AOSUniverseDownloadQueue")
         
+        self.progressLabel = progressLabel
         let session = getOptimisedUrlSession()
         var remainingBodies = bodies
         var output = [SCNScene]()
