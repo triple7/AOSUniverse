@@ -74,18 +74,28 @@ public final class AOSUniverse:ObservableObject {
             try Zip.unzipFile(targetUrl, destination: targetpath, overwrite: true, password: nil)
             let folder = try FileManager.default.contentsOfDirectory(atPath: targetpath.path())
 
-            let sceneFile = folder.filter{$0.contains(".scn")}.first!
+            var scene:SCNScene
             let jpegFiles = folder.filter{$0.contains(".jpg")}
-            // TODO: filter per material component
-            let scene = try SCNScene(url: targetpath.appendingPathComponent(sceneFile))
-            if jpegFiles.count != 0 {
-                let image = Image(contentsOf: targetpath.appendingPathComponent(jpegFiles.first!))
-                let material = SCNMaterial()
-                material.diffuse.contents = image
-                scene.rootNode.childNodes.forEach { node in
-                    node.geometry?.materials = [material]
-                    node.geometry?.firstMaterial?.displacement.contents = material
+
+            if let sceneFile = folder.filter{$0.contains(".scn")}.first {
+                // TODO: filter per material component
+                // TODO: all remote files should be packaged as zipped scn
+                scene = try SCNScene(url: targetpath.appendingPathComponent(sceneFile))
+                if jpegFiles.count != 0 {
+                    let image = Image(contentsOf: targetpath.appendingPathComponent(jpegFiles.first!))
+                    let material = SCNMaterial()
+                    material.diffuse.contents = image
+                    scene.rootNode.childNodes.forEach { node in
+                        node.geometry?.materials = [material]
+                        node.geometry?.firstMaterial?.displacement.contents = material
+                    }
                 }
+            } else {
+                // legacy method
+                let obj = folder.filter{$0.contains(".obj")}.first!
+                let mtl = folder.filter{$0.contains(".mtl")}
+                let hasMtl = mtl.count > 0
+                scene = try SCNScene(url: targetpath.appendingPathComponent(obj), options: hasMtl ? [SCNSceneSource.LoadingOption.assetDirectoryURLs: [mtl.first!]] : nil)
             }
             // Delete zip file
             try FileManager.default.removeItem(at: targetUrl)
