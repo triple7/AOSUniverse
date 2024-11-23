@@ -84,7 +84,7 @@ public final class AOSUniverse:ObservableObject {
                 if jpegFiles.count != 0 {
                     let jpegUrl = targetpath.appendingPathComponent(jpegFiles.first!)
 #if os(iOS)
-                    let image = UIImage(contentsOf: jpegUrl)
+                    let image = UIImage(jpegUrl)
 #elseif os(macOS)
                     let image = NSImage(contentsOf: jpegUrl)
 #endif
