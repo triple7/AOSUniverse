@@ -1,12 +1,12 @@
 import Foundation
 import Zip
 import SceneKit
+
+
 #if os(iOS)
 import UIKit
-public typealias Image = UIImage
 #elseif os(macOS)
 import AppKit
-public typealias Image = NSImage
 #endif
 
 public final class AOSUniverse:ObservableObject {
@@ -82,7 +82,13 @@ public final class AOSUniverse:ObservableObject {
                 // TODO: all remote files should be packaged as zipped scn
                 scene = try SCNScene(url: targetpath.appendingPathComponent(sceneFile))
                 if jpegFiles.count != 0 {
-                    let image = Image(contentsOf: targetpath.appendingPathComponent(jpegFiles.first!))
+                    let jpegUrl = targetpath.appendingPathComponent(jpegFiles.first!)
+#if os(iOS)
+                    let image = UIImage(contentsOf: jpegUrl)
+#elseif os(macOS)
+                    let image = NSImage(contentsOf: jpegUrl)
+#endif
+
                     let material = SCNMaterial()
                     material.diffuse.contents = image
                     scene.rootNode.childNodes.forEach { node in
