@@ -1,7 +1,12 @@
 import Foundation
 import Zip
 import SceneKit
+
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 public final class AOSUniverse:ObservableObject {
     internal let baseUrl = "https://universe.oseyeris.com/serve/"
@@ -77,8 +82,11 @@ public final class AOSUniverse:ObservableObject {
                 scene = try SCNScene(url: targetpath.appendingPathComponent(sceneFile))
                 if jpegFiles.count != 0 {
                     let jpegUrl = targetpath.appendingPathComponent(jpegFiles.first!)
+#if os(iOS)
                     let image = UIImage(contentsOfFile: jpegUrl.path())
-
+#elseif os(macOS)
+                    let image = NSImage(contentsOfFile: jpegUrl.path())
+#endif
                     let material = SCNMaterial()
                     material.diffuse.contents = image
                     scene.rootNode.childNodes.forEach { node in
