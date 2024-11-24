@@ -43,7 +43,7 @@ extension AOSUniverse {
         configuration.httpShouldUsePipelining = true
         configuration.httpMaximumConnectionsPerHost = 10
         configuration.waitsForConnectivity = false
-        return URLSession(configuration: configuration)
+        return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
     }
     
     
@@ -143,8 +143,7 @@ extension AOSUniverse {
     
     private func getRemoteSource(url: URL, completion: @escaping (URL?) -> Void ) {
         
-        let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration)
+        let session = getOptimisedUrlSession()
         
         let task = session.downloadTask(with: url) { tempUrl, response, error in
             

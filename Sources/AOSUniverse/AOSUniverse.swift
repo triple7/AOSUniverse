@@ -12,7 +12,7 @@ public typealias Image = NSImage
 public typealias Label = NSTextField
 #endif
 
-public final class AOSUniverse:ObservableObject {
+public final class AOSUniverse:NSObject {
     internal let baseUrl = "https://universe.oseyeris.com/serve/"
     public lazy var models:[SCNScene] = {
         return [SCNScene]()
@@ -28,7 +28,7 @@ public final class AOSUniverse:ObservableObject {
     
     public static let shared = AOSUniverse()
 
-    private init() {
+    private override init() {
         /** Initializer
          Checks for all object relative directories are created
          the first time it's run
@@ -42,6 +42,8 @@ public final class AOSUniverse:ObservableObject {
                 }
             }
         }
+        
+        super.init()
     }
 
     func saveScnFile(for asset: AOSAsset, at url: URL) {
@@ -156,4 +158,21 @@ internal func getRemoteAssetUrl( _ fileName: String, _ assetType: AssetType, _ t
         })
     }
     
+}
+
+extension AOSUniverse:URLSessionDelegate {
+
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        expectedContentLength = Int(response.expectedContentLength)
+        buffer = 0
+    }
+    
+    public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        buffer = buffer! + data.count
+        let percentageDownloaded = Float(buffer!) / Float(expectedContentLength!)
+        DispatchQueue.main.async {
+            self.progressLabel?.stringValue = "\(percentageDownloaded) percent"
+        }
+    }
+
 }
