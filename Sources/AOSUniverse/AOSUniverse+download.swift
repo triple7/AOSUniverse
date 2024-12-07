@@ -37,21 +37,11 @@ extension AOSUniverse {
     }
 
     
-    private func getOptimisedUrlSession() -> URLSession {
-        let configuration = URLSessionConfiguration.default
-        // Optimise the session network config
-        configuration.httpShouldUsePipelining = true
-        configuration.httpMaximumConnectionsPerHost = 10
-        configuration.waitsForConnectivity = false
-        return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-    }
-    
-    
     public func downloadAssetModel(bodies: [AOSBody], progressLabel: Label?, completion: @escaping ([SCNScene]) -> Void) {
         let serialQueue = DispatchQueue(label: "AOSUniverseDownloadQueue")
         
         self.progressLabel = progressLabel
-        let session = getOptimisedUrlSession()
+        let session = URLSession.shared
         var remainingBodies = bodies
         var output = [SCNScene]()
         
@@ -143,7 +133,7 @@ extension AOSUniverse {
     
     private func getRemoteSource(url: URL, completion: @escaping (URL?) -> Void ) {
         
-        let session = getOptimisedUrlSession()
+        let session = URLSession.shared
         
         let task = session.downloadTask(with: url) { tempUrl, response, error in
             
@@ -202,7 +192,7 @@ extension AOSUniverse {
                     
                     var remainingUrls = urls
                     
-                    let session = getOptimisedUrlSession()
+        let session = URLSession.shared
                     var output = [URL]()
                     
                     // Create a recursive function to handle the download
