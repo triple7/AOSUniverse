@@ -171,7 +171,9 @@ extension AOSUniverse:URLSessionDelegate {
         buffer = buffer! + data.count
         let percentageDownloaded = Float(buffer!) / Float(expectedContentLength!)
         DispatchQueue.main.async {
-            self.progressLabel?.stringValue = "\(percentageDownloaded) percent"
+#if os(iOS)
+            self.progressLabel?.text = "\(percentageDownloaded) percent"
+#endif
         }
     }
 
