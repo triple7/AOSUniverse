@@ -41,8 +41,6 @@ public struct AOSBody:Codable {
     public var radiusOfGeometry:Float
     public var epoch0:Int?
 
-    
-    
     //    Semi Major axis length
     public var orbitSemiMajorAxis:Float
     //    Eccentricity of the orbit, indicating how much the orbit deviates from being circular.
@@ -54,7 +52,7 @@ public struct AOSBody:Codable {
     //    Right ascension of the ascending node, the angle from the reference direction to the ascending node of the orbit.
     public var orbitRightAscension:Float
     //Mark: Initialiser for earth sats and Asteroids
-    public init(_ name: String, _ id: Int, _ type: AOSType){
+    public init(name: String, id: Int, type: AOSType, coordinates: [SCNVector3] = [], coordinateTimestamps: [Double]){
         self.id = id
         self.name = name
         self.type = type
@@ -65,8 +63,8 @@ public struct AOSBody:Codable {
         } else {
             self.parent = "SolarSystem"
         }
-        self.coordinates = [SCNVector3]()
-        self.coordinateTimestamps = [Double]()
+        self.coordinates = coordinates
+        self.coordinateTimestamps = coordinateTimestamps
         self.currentCoordTimestamp = 0.0
         self.distanceToEarth = 0.0
         self.radiusOfGeometry = 0.0
@@ -75,7 +73,6 @@ public struct AOSBody:Codable {
         self.orbitInclination = 0.0
         self.orbitArgPericenter = 0.0
         self.orbitRightAscension = 0.0
-
     }
     
     public func earthSatId() -> Int {
