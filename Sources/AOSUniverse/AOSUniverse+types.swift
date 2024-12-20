@@ -52,16 +52,16 @@ public struct AOSBody:Codable {
     //    Right ascension of the ascending node, the angle from the reference direction to the ascending node of the orbit.
     public var orbitRightAscension:Float
     //Mark: Initialiser for earth sats and Asteroids
-    public init(name: String, id: Int, type: AOSType, coordinates: [SCNVector3] = [], coordinateTimestamps: [Double] = []){
+    public init(name: String, id: Int, type: AOSType, parent: String = "SolarSystem", coordinates: [SCNVector3] = [], coordinateTimestamps: [Double] = []){
         self.id = id
         self.name = name
         self.type = type
         if type == .Asteroid {
-            self.parent = "SolarSystem"
+            self.parent = parent
         } else if type == .EarthSat {
             self.parent = "NEOs"
         } else {
-            self.parent = "SolarSystem"
+            self.parent = parent
         }
         self.coordinates = coordinates
         self.coordinateTimestamps = coordinateTimestamps

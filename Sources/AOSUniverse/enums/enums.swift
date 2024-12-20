@@ -37,6 +37,7 @@ public enum AOSUniverseObject:String, Codable, CaseIterable {
     public var id:String {
         return self.rawValue.lowercased()
     }
+
     
     func directoryUrl(_ assetType: AssetType)->URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathExtension(assetType.id).appendingPathExtension(self.id)
