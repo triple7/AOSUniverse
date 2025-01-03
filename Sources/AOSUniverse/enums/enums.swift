@@ -34,8 +34,12 @@ public enum AOSUniverseObject:String, Codable, CaseIterable {
     case Tidaldisruption
     case SolarSystem
     
-    public var id:String {
-        return self.rawValue.lowercased()
+    public var id: String {
+        guard let firstLetter = self.rawValue.first?.lowercased() else {
+            return self.rawValue
+        }
+        let rest = self.rawValue.dropFirst()
+        return firstLetter + rest
     }
 
     
