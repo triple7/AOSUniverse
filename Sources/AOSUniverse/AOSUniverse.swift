@@ -148,9 +148,11 @@ internal func getRemoteAssetUrl( _ fileName: String, _ assetType: AssetType, _ t
         return getAssetUrl(assetpath: [body.type.id, "models"], type: "\(body.id)")
         }
 
-                             internal func getGenericModel(type: AOSType)->SCNScene {
-                return SCNScene(named: type.id)!
-            }
+    internal func getGenericModel(type: AOSType)->SCNScene {
+        let filename = "\(type.id).scn"
+        print("AOSUniverse: loading generic model \(filename)")
+        return SCNScene(named: filename)!
+    }
                              
     public func getBodyModel( body: AOSBody, progressLabel: Label, completion: @escaping (SCNScene)-> Void) {
         downloadAssetModel(bodies: [body], progressLabel: progressLabel, completion: { result in
