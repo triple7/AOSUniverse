@@ -19,17 +19,18 @@ extension AOSUniverse {
             self.sysLog.append(AOSSysLog(log: .RequestError, message: error!.localizedDescription))
             gotError = true
         }
-        if (response as? HTTPURLResponse) == nil {
+        if let response = response {
+            let urlResponse = (response as! HTTPURLResponse)
+            if urlResponse.statusCode != 200 {
+                let error = NSError(domain: "com.error", code: urlResponse.statusCode)
+                self.sysLog.append(AOSSysLog(log: .RequestError, message: error.localizedDescription))
+                gotError = true
+            }
+        } else {
             self.sysLog.append(AOSSysLog(log: .RequestError, message: "response timed out"))
             gotError = true
         }
-        let urlResponse = (response as! HTTPURLResponse)
-        if urlResponse.statusCode != 200 {
-            let error = NSError(domain: "com.error", code: urlResponse.statusCode)
-            self.sysLog.append(AOSSysLog(log: .RequestError, message: error.localizedDescription))
-            gotError = true
-        }
-        if !gotError {
+if !gotError {
             let message = url != nil ? url!.absoluteString : "data"
             self.sysLog.append(AOSSysLog(log: .Ok, message: "\(message) downloaded"))
         }
