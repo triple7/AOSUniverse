@@ -179,4 +179,10 @@ extension AOSUniverse:URLSessionDelegate {
         }
     }
 
+    
+    internal func printLogs() {
+        for log in sysLog {
+            print(log)
+        }
+    }
 }

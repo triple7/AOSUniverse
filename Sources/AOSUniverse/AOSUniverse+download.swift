@@ -18,6 +18,7 @@ extension AOSUniverse {
         if error != nil {
             self.sysLog.append(AOSSysLog(log: .RequestError, message: error!.localizedDescription))
             gotError = true
+            self.printLogs()
         }
         if let response = response {
             let urlResponse = (response as! HTTPURLResponse)
@@ -29,6 +30,7 @@ extension AOSUniverse {
         } else {
             self.sysLog.append(AOSSysLog(log: .RequestError, message: "response timed out"))
             gotError = true
+            self.printLogs()
         }
 if !gotError {
             let message = url != nil ? url!.absoluteString : "data"
