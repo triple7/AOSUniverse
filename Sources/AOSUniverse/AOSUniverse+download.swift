@@ -15,22 +15,20 @@ extension AOSUniverse {
      */
     private func requestIsValid(error: Error?, response: URLResponse?, url: URL? = nil) -> Bool {
         var gotError = false
-        if error != nil {
-            self.sysLog.append(AOSSysLog(log: .RequestError, message: error!.localizedDescription))
+        if let error = error {
+            self.sysLog.append(AOSSysLog(log: .RequestError, message: error.localizedDescription))
             gotError = true
-            self.printLogs()
         }
         if let response = response {
             let urlResponse = (response as! HTTPURLResponse)
             if urlResponse.statusCode != 200 {
-                let error = NSError(domain: "com.error", code: urlResponse.statusCode)
-                self.sysLog.append(AOSSysLog(log: .RequestError, message: error.localizedDescription))
+                let responseError = NSError(domain: "com.error", code: urlResponse.statusCode)
+                self.sysLog.append(AOSSysLog(log: .RequestError, message: responseError.localizedDescription))
                 gotError = true
             }
         } else {
             self.sysLog.append(AOSSysLog(log: .RequestError, message: "response timed out"))
             gotError = true
-            self.printLogs()
         }
 if !gotError {
             let message = url != nil ? url!.absoluteString : "data"
