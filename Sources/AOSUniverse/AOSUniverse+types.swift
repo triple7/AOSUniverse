@@ -177,6 +177,18 @@ public struct AOSStar:Codable {
         self.greek = greek
     }
     
+    public func mastId() -> String {
+        if let hd = self.hd {
+            return "HD\(hd)"
+        } else if let hip = self.hip {
+            return "HIP\(hip)"
+        } else if proper != "" {
+            return proper
+        } else {
+            return ""
+        }
+    }
+    
     public func starIdentification() -> [String] {
         var output = [String]()
         if let hd = self.hd {
