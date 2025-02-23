@@ -18,6 +18,29 @@ public enum SpectralType: String, Codable, Identifiable, CaseIterable {
         return self.rawValue
     }
     
+    public func getSpectralBrightness() -> CGFloat {
+        switch self {
+        case .O: return 1.0000
+        case .B: return 0.9688
+        case .A: return 0.9375
+        case .F: return 0.9062
+        case .G: return 0.8750
+        case .K: return 0.8438
+        case .M: return 0.8125
+        case .C: return 0.7812
+        case .R: return 0.7500
+        case .N: return 0.7188
+        case .S: return 0.6875
+        case .WC: return 0.6562
+        case .WN: return 0.6250
+        case .WR: return 0.5938
+        case .NO: return 0.5625
+        case .SC: return 0.5312
+        case .FO: return 0.5000
+        default: return 0.5
+        }
+    }
+
 }
 
 extension SCNVector3: Codable {
@@ -232,32 +255,8 @@ public struct AOSStar:Codable {
         }
         return output
     }
-
-                public func getSpectralBrightness() -> CGFloat {
-                    switch self.spectral {
-                    case .O: return 1.0000
-                    case .B: return 0.9688
-                    case .A: return 0.9375
-                    case .F: return 0.9062
-                    case .G: return 0.8750
-                    case .K: return 0.8438
-                    case .M: return 0.8125
-                    case .C: return 0.7812
-                    case .R: return 0.7500
-                    case .N: return 0.7188
-                    case .S: return 0.6875
-                    case .WC: return 0.6562
-                    case .WN: return 0.6250
-                    case .WR: return 0.5938
-                    case .NO: return 0.5625
-                    case .SC: return 0.5312
-                    case .FO: return 0.5000
-                    default: return 0.5
-                    }
-                }
-
+    
 }
-
 public struct AOSConstellation:Codable {
     public let type:AOSType
     public let constellationDistance:Float
