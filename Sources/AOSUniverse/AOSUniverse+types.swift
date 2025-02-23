@@ -8,6 +8,18 @@
 import Foundation
 import SceneKit
 
+public enum SpectralType: String, Codable, Identifiable, CaseIterable {
+    case O, B, A, F, G, K, M  // Main sequence and giants
+    case C, R, N, S           // Carbon and cool stars
+    case WC, WN, WR, NO, SC, FO // Wolf-Rayet and exotic stars
+    case Unknown
+    
+    public var id:String {
+        return self.rawValue
+    }
+    
+}
+
 extension SCNVector3: Codable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -146,7 +158,7 @@ public struct AOSStar:Codable {
     public let type:AOSType
     public let id:Int
     public let starCategory:Int
-    public let spectral:String // spectral category BUG should be enum
+    public let spectral:SpectralType
     public let distanceToEarth:Float // per object as scaling occurs in 3D space
     public var radiusOfGeometry:Float
     public let proper: String // proper star name
@@ -162,7 +174,7 @@ public struct AOSStar:Codable {
         self.hip = hip
         self.proper = proper
         self.starCategory = starCategory
-        self.spectral = spectral
+        self.spectral = SpectralType(rawValue: spectral) ?? .Unknown
         self.distanceToEarth = distanceToEarth
         self.greek = greek
         self.plural = plural
@@ -178,10 +190,10 @@ public struct AOSStar:Codable {
     }
     
     public func mastId() -> String {
-        if let hd = self.hd {
-            return "HD\(hd)"
-        } else if let hip = self.hip {
+        if let hip = self.hip {
             return "HIP\(hip)"
+        } else if let hd = self.hd {
+            return "HD\(hd)"
         } else if proper != "" {
             return proper
         } else {
@@ -191,18 +203,17 @@ public struct AOSStar:Codable {
     
     public func starIdentification() -> [String] {
         var output = [String]()
-        if let hd = self.hd {
-            output.append("HD\(hd)")
-        } else if let hip = self.hip {
+        if let hip = self.hip {
             output.append("HIP\(hip)")
-        } else if proper != "" {
+        }
+        if proper != "" {
             output.append(proper)
         }
         output.append("spectral")
-        output.append(spectral)
+        output.append(spectral.id)
         return output
     }
-
+    
     public func starNames() -> [String] {
         var output = [String]()
         if proper != "" {
@@ -217,11 +228,36 @@ public struct AOSStar:Codable {
             }
         }
         if output.count == 0 {
-            output.append(spectral)
+            output.append(spectral.id)
         }
         return output
     }
-
+    
+    func setSpectralBrightness() -> CGFloat {
+        switch self.spectral {
+        case .O:  return 1.0   // Brightest, massive blue giants
+        case .B:  return 0.9   // Very bright, blue-white
+        case .A:  return 0.85  // White, bright stars
+        case .F:  return 0.75  // Yellow-white
+        case .G:  return 0.65  // Sun-like stars
+        case .K:  return 0.55  // Orange dwarfs and giants
+        case .M:  return 0.4   // Red dwarfs and giants
+            
+            // Carbon stars and cool stars
+        case .C:  return 0.5   // Carbon stars, mid-brightness
+        case .R:  return 0.55  // Carbon-rich stars, slightly brighter than M
+        case .N:  return 0.45  // Similar to M but slightly dimmer
+        case .S:  return 0.5   // Cool, rare stars
+            // Wolf-Rayet and exotic stars
+        case .WC: return 0.95  // Very luminous, strong winds
+        case .WN: return 0.92  // Hotter than WC
+        case .WR: return 0.97  // Generic Wolf-Rayet, slightly less than O
+        case .NO: return 0.3   // Dimmest category, likely evolved stars
+        case .SC: return 0.35  // Rare stars, slightly brighter than NO
+        case .FO: return 0.3   // Faintest stars, lowest brightness
+        default: return 0.5
+        }
+    }
 }
 
 public struct AOSConstellation:Codable {
