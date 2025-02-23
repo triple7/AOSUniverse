@@ -232,32 +232,31 @@ public struct AOSStar:Codable {
         }
         return output
     }
-    
-    public func getSpectralBrightness() -> CGFloat {
-        switch self.spectral {
-        case .O:  return 1.0   // Brightest, massive blue giants
-        case .B:  return 0.9   // Very bright, blue-white
-        case .A:  return 0.85  // White, bright stars
-        case .F:  return 0.75  // Yellow-white
-        case .G:  return 0.65  // Sun-like stars
-        case .K:  return 0.55  // Orange dwarfs and giants
-        case .M:  return 0.4   // Red dwarfs and giants
-            
-            // Carbon stars and cool stars
-        case .C:  return 0.5   // Carbon stars, mid-brightness
-        case .R:  return 0.55  // Carbon-rich stars, slightly brighter than M
-        case .N:  return 0.45  // Similar to M but slightly dimmer
-        case .S:  return 0.5   // Cool, rare stars
-            // Wolf-Rayet and exotic stars
-        case .WC: return 0.95  // Very luminous, strong winds
-        case .WN: return 0.92  // Hotter than WC
-        case .WR: return 0.97  // Generic Wolf-Rayet, slightly less than O
-        case .NO: return 0.3   // Dimmest category, likely evolved stars
-        case .SC: return 0.35  // Rare stars, slightly brighter than NO
-        case .FO: return 0.3   // Faintest stars, lowest brightness
-        default: return 0.5
-        }
-    }
+
+            public func setSpectralBrightness() -> CGFloat {
+                switch self.spectral {
+                case .O: return 1.0000
+                case .B: return 0.9906
+                case .A: return 0.9812
+                case .F: return 0.9719
+                case .G: return 0.9625
+                case .K: return 0.9531
+                case .M: return 0.9437
+                case .C: return 0.9344
+                case .R: return 0.9250
+                case .N: return 0.9156
+                case .S: return 0.9062
+                case .WC: return 0.8969
+                case .WN: return 0.8875
+                case .WR: return 0.8781
+                case .NO: return 0.8687
+                case .SC: return 0.8594
+                case .FO: return 0.8500
+                default: return 0.85
+                }
+            }
+        
+
 }
 
 public struct AOSConstellation:Codable {
