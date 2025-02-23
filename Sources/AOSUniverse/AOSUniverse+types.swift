@@ -233,9 +233,8 @@ public struct AOSStar:Codable {
         return output
     }
 
-            public func getSpectralBrightness() -> CGFloat {
                 public func getSpectralBrightness() -> CGFloat {
-                    switch self {
+                    switch self.spectral {
                     case .O: return 1.0000
                     case .B: return 0.9688
                     case .A: return 0.9375
@@ -256,7 +255,6 @@ public struct AOSStar:Codable {
                     default: return 0.5
                     }
                 }
-
 
 }
 
