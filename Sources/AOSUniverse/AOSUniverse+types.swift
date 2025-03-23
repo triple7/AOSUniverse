@@ -91,11 +91,11 @@ public struct AOSBody:Codable {
     public var orbitRightAscension:Float
 
     // Captured from Horizons
-    public var targetproperties:TargetProperties?
+    public var targetProperties:TargetProperties?
     
     
     // Mark: initializer for MB from Horizons
-    public init(mb: MB, targetproperties: TargetProperties) {
+    public init(mb: MB, targetProperties: TargetProperties) {
         self.id = mb.id
         self.name = mb.name
         if mb.type == "Planet" {
@@ -120,7 +120,7 @@ public struct AOSBody:Codable {
         self.orbitArgPericenter = 0.0
         self.orbitRightAscension = 0.0
         
-        self.targetproperties = targetproperties
+        self.targetProperties = targetProperties
     }
     
     //Mark: Initialiser for earth sats and Asteroids
