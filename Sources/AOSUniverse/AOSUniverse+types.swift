@@ -7,6 +7,7 @@
 
 import Foundation
 import SceneKit
+import SwiftHorizons
 
 public enum SpectralType: String, Codable, Identifiable, CaseIterable {
     case O, B, A, F, G, K, M  // Main sequence and giants
@@ -69,6 +70,8 @@ public struct AOSBody:Codable {
     public let id:Int
     public let type:AOSType
     public let parent:String
+    public var designation:String?
+    public var aliases:String?
     public var coordinates:[SCNVector3]
     public var coordinateTimestamps:[Double]
     public var currentCoordTimestamp:Double
@@ -86,6 +89,40 @@ public struct AOSBody:Codable {
     public var orbitArgPericenter:Float
     //    Right ascension of the ascending node, the angle from the reference direction to the ascending node of the orbit.
     public var orbitRightAscension:Float
+
+    // Captured from Horizons
+    public var targetproperties:TargetProperties?
+    
+    
+    // Mark: initializer for MB from Horizons
+    public init(mb: MB, targetproperties: TargetProperties) {
+        self.id = mb.id
+        self.name = mb.name
+        if mb.type == "Planet" {
+            self.type = .Planet
+        } else if mb.type == "NaturalSat" {
+            self.type = .NaturalSat
+        } else if mb.type == "Star" {
+            self.type = .Star
+        } else {
+            self.type = .Satellite
+        }
+            
+        self.parent = mb.parent ?? "SolarSystem"
+        self.coordinates = []
+        self.coordinateTimestamps = []
+        self.currentCoordTimestamp = 0.0
+        self.distanceToEarth = 0.0
+        self.radiusOfGeometry = 0.0
+        self.orbitSemiMajorAxis = 0.0
+        self.orbitEccentricity = 0.0
+        self.orbitInclination = 0.0
+        self.orbitArgPericenter = 0.0
+        self.orbitRightAscension = 0.0
+        
+        self.targetproperties = targetproperties
+    }
+    
     //Mark: Initialiser for earth sats and Asteroids
     public init(name: String, id: Int, type: AOSType, parent: String = "SolarSystem", coordinates: [SCNVector3] = [], coordinateTimestamps: [Double] = []){
         self.id = id

@@ -18,13 +18,16 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/marmelroy/Zip.git", branch: "master"),
+        .package(url: "https://github.com/triple7/SwiftHorizons.git", branch: "main"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "AOSUniverse",
-            dependencies: [.product(name: "Zip", package: "Zip")]),
+            dependencies: [
+                .product(name: "Zip", package: "Zip"),
+                .product(name: "SwiftHorizons", package: "SwiftHorizons"),            ]),
         .testTarget(
             name: "AOSUniverseTests",
             dependencies: ["AOSUniverse"]),

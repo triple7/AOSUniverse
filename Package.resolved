@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "swifthorizons",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/triple7/SwiftHorizons.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "b575513357572bb189d6f25cd0bb11e6e1f8fe4a"
+      }
+    },
+    {
       "identity" : "zip",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/Zip.git",
