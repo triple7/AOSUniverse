@@ -173,6 +173,11 @@ public struct AOSBody:Codable {
         self.orbitArgPericenter = ArgPericenter
         self.orbitRightAscension = RightAscension
     }
+
+    public mutating func setTargetProperties(targetProperties: TargetProperties) {
+        self.targetProperties = targetProperties
+    }
+
 }
 
 extension AOSBody:Equatable, Comparable{
