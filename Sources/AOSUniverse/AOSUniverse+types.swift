@@ -126,7 +126,7 @@ public struct AOSBody:Codable {
     }
     
     //Mark: Initialiser for earth sats and Asteroids
-    public init(name: String, id: Int, type: AOSType, parent: String = "SolarSystem", coordinates: [SCNVector3] = [], velocities: [SCNVector3] = [], coordinateTimestamps: [Double] = [], targetproperties: TargetProperties) {
+    public init(name: String, id: Int, type: AOSType, parent: String = "SolarSystem", coordinates: [SCNVector3] = [], velocities: [SCNVector3] = [], coordinateTimestamps: [Double] = [], targetproperties: TargetProperties? = nil) {
         self.id = id
         self.name = name
         self.type = type
