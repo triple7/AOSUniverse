@@ -126,7 +126,7 @@ public struct AOSBody:Codable {
     }
     
     //Mark: Initialiser for earth sats and Asteroids
-    public init(name: String, id: Int, type: AOSType, parent: String = "SolarSystem", coordinates: [SCNVector3] = [], velocities: [SCNVector3] = [], coordinateTimestamps: [Double] = []){
+    public init(name: String, id: Int, type: AOSType, parent: String = "SolarSystem", coordinates: [SCNVector3] = [], velocities: [SCNVector3] = [], coordinateTimestamps: [Double] = [], targetproperties: TargetProperties) {
         self.id = id
         self.name = name
         self.type = type
@@ -139,7 +139,9 @@ public struct AOSBody:Codable {
         }
         self.coordinates = coordinates
         self.velocities = velocities
+        
         self.coordinateTimestamps = coordinateTimestamps
+        self.targetProperties = targetproperties
         self.currentCoordTimestamp = 0.0
         self.distanceToEarth = 0.0
         self.radiusOfGeometry = 0.0
@@ -148,8 +150,6 @@ public struct AOSBody:Codable {
         self.orbitInclination = 0.0
         self.orbitArgPericenter = 0.0
         self.orbitRightAscension = 0.0
-        self.targetProperties = targetProperties
-        
     }
     
     public func earthSatId() -> Int {
