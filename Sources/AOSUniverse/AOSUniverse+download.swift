@@ -84,7 +84,48 @@ if !gotError {
             downloadNextBody()
         }
     }
-    
+
+    public func downloadAssetModel(
+        bodies: [AOSBody],
+        progressLabel: Label?
+    ) async -> [SCNScene] {
+        let session = URLSession.shared
+        var output: [SCNScene] = []
+
+        for (index, body) in bodies.enumerated() {
+            let modelUrl = getRemoteAssetUrl(
+                assetpath: [body.type.id, "models"],
+                type: "",
+                fileName: "\(body.id)_scn.zip"
+            )
+
+            do {
+                let (tempUrl, response) = try await session.download(from: modelUrl)
+                if requestIsValid(error: nil, response: response, url: tempUrl) {
+                    if let scene = unpackScn(at: tempUrl, body: body) {
+                        output.append(scene)
+                        sysLog.append(AOSSysLog(log: .Ok, message: "\(modelUrl.lastPathComponent) downloaded"))
+                    } else {
+                        throw URLError(.badServerResponse)
+                    }
+                } else {
+                    throw URLError(.badServerResponse)
+                }
+            } catch {
+                output.append(getGenericModel(type: body.type))
+                sysLog.append(AOSSysLog(log: .Ok, message: "Generic \(body.type.id) used"))
+            }
+
+            if let label = progressLabel {
+                await MainActor.run {
+                    label.stringValue = "Downloaded \(index + 1) of \(bodies.count)"
+                }
+            }
+        }
+
+        return output
+    }
+
     
     private func fetchLastModifiedDate(for url: URL, dateCompletion: @escaping (Date?) -> Void) {
         var request = URLRequest(url: url)
