@@ -55,7 +55,7 @@ if !gotError {
             }
             
             let body = remainingBodies.removeFirst()
-            let modelUrl = getRemoteAssetUrl(assetpath: [body.type.id, "models"], type: "", fileName: "\(body.id)_scn.zip")
+            let modelUrl = getRemoteAssetUrl(assetpath: [body.type.id, "models"], type: "", fileName: "\(body.id).zip")
             
             let operation = ModelDownloadOperation(session: session, downloadTaskUrl: modelUrl, completionHandler: { (tempUrl, response, error) in
                 if self.requestIsValid(error: error, response: response, url: tempUrl) {
@@ -96,7 +96,7 @@ if !gotError {
             let modelUrl = getRemoteAssetUrl(
                 assetpath: [body.type.id, "models"],
                 type: "",
-                fileName: "\(body.id)_scn.zip"
+                fileName: "\(body.id).zip"
             )
 
             do {
