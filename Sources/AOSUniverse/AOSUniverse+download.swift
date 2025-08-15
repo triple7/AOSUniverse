@@ -118,7 +118,11 @@ if !gotError {
 
             if let label = progressLabel {
                 await MainActor.run {
+#if os(iOS)
+                    label.text = "Downloaded \(index + 1) of \(bodies.count)"
+#elseif os(macOS)
                     label.stringValue = "Downloaded \(index + 1) of \(bodies.count)"
+#endif
                 }
             }
         }
