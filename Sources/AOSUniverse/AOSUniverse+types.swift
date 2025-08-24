@@ -223,7 +223,7 @@ public struct AOSBoundingBox:Codable {
     }
 }
 
-public struct AOSStar:Codable {
+public struct AOSStar:Codable, Equatable {
     
     public let type:AOSType
     public let id:Int
@@ -302,6 +302,7 @@ public struct AOSStar:Codable {
         }
         return output
     }
+    
     
 }
 public struct AOSConstellation:Codable {
