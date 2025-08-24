@@ -304,7 +304,11 @@ public struct AOSStar:Codable, Equatable {
     }
     
     
+    public static func == (lhs: AOSStar, rhs: AOSStar) -> Bool {
+        return lhs.hip == rhs.hip
+    }
 }
+
 public struct AOSConstellation:Codable {
     public let type:AOSType
     public let constellationDistance:Float
