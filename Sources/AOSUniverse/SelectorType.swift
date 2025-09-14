@@ -48,7 +48,7 @@ public enum SelectorType:String, Codable, Identifiable, CaseIterable {
 
     private func colorFromCG(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat) -> Color {
         let cg = CGColor(srgbRed: r/255, green: g/255, blue: b/255, alpha: 1.0)
-        return Color(cgColor: cg)!
+        return Color(cgColor: cg)
     }
 
     public var color:Color {
