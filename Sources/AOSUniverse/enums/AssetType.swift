@@ -5,8 +5,9 @@
 //  Created by Yuma decaux on 6/10/2025.
 //
 
+import ArgumentParser
 
-public enum AssetType:String, Identifiable, CaseIterable {
+public enum AssetType:String, Identifiable, CaseIterable, Codable, ExpressibleByArgument {
     case model
     case image
     case fits
