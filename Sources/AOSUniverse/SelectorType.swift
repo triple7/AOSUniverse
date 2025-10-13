@@ -25,7 +25,11 @@ public enum SelectorType:String, Codable, Identifiable, CaseIterable {
     case star_6_cross_4lines
     case star4_5lines_circle
     case star4lines_circle
-    
+
+    // Legacy options, still used in the Regulus app
+    case confirmedExoPlanet
+    case ticCandidate
+
     public var id:String {
         return self.rawValue
     }
@@ -43,6 +47,10 @@ public enum SelectorType:String, Codable, Identifiable, CaseIterable {
         case .star_6_cross_4lines: return 7
         case .star4_5lines_circle: return 8
         case .star4lines_circle: return 9
+
+        // Legacy options, still used in the Regulus app
+        case .confirmedExoPlanet: return 10
+        case .ticCandidate: return 11
         }
     }
 
@@ -68,6 +76,10 @@ public enum SelectorType:String, Codable, Identifiable, CaseIterable {
         case .star_6_cross_4lines:     return colorFromCG(224,  49,  49)  // red
         case .star4_5lines_circle:     return colorFromCG(214,  51, 108)  // magenta-pink
         case .star4lines_circle:       return colorFromCG(112,  72, 232)  // purple
+
+        // Legacy options, still used in the Regulus app
+        case .confirmedExoPlanet:     return colorFromCG(255, 215,   0)  // gold
+        case .ticCandidate:           return colorFromCG(192, 192, 192)  // silver
         }
     }
 
