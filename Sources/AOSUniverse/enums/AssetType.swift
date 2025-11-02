@@ -8,6 +8,7 @@
 import ArgumentParser
 
 public enum AssetType:String, Identifiable, CaseIterable, Codable, ExpressibleByArgument {
+    case bin
     case model
     case image
     case fits
@@ -21,6 +22,7 @@ public enum AssetType:String, Identifiable, CaseIterable, Codable, ExpressibleBy
     
     var media:String {
         switch self {
+        case .bin: return "bin"
         case .model: return "zip"
         case .image: return "jpg"
         case .fits: return "fits"
