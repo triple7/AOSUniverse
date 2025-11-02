@@ -32,9 +32,9 @@ public func getCachedFile(assetpath: [String], type: String, text: String) -> UR
     return getAssetUrl(assetpath: assetpath, type: type).appendingPathComponent(text)
 }
 
-public func getCachedFileByType(assetType: AssetType, aosType: AOSType, fileName: String, extendedname: String? = nil) -> URL {
+public func getCachedFileByType(assetType: AssetType, aosType: AOSType, fileName: String, extendedName: String? = nil) -> URL {
     var assetPath = getDocumentsUrl().appendingPathComponent(assetType.id, isDirectory: true).appendingPathComponent(aosType.id, isDirectory: true)
-    if let extendedname = extendedname {
+    if let extendedname = extendedName {
         assetPath = assetPath.appendingPathComponent(extendedname, isDirectory: true)
     }
     return Foundation.URL(fileURLWithPath: assetPath.appending(component: fileName).path())
@@ -46,10 +46,10 @@ func fileIsInCache(assetpath: [String], type: String, text: String) -> Bool {
     return FileManager.default.fileExists(atPath: file.path)
 }
 
-public func fileIsCached(assetType: AssetType, aosType: AOSType, fileName: String, extendedname: String? = nil) -> Bool {
+public func fileIsCached(assetType: AssetType, aosType: AOSType, fileName: String, extendedName: String? = nil) -> Bool {
     var assetPath = getDocumentsUrl().appendingPathComponent(assetType.id, isDirectory: true).appendingPathComponent(aosType.id, isDirectory: true)
-    if let extendedname = extendedname {
-        assetPath = assetPath.appendingPathComponent(extendedname, isDirectory: true)
+    if let extendedName = extendedName {
+        assetPath = assetPath.appendingPathComponent(extendedName, isDirectory: true)
     }
     return FileManager.default.fileExists(atPath: assetPath.appendingPathComponent(fileName).path())
 }
