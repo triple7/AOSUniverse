@@ -14,7 +14,7 @@ internal func getDocumentsUrl()->URL {
     }
 
 
-internal func getAssetUrl(assetpath: [String], type: String) -> URL {
+public func getAssetUrl(assetpath: [String], type: String) -> URL {
     var assetFolder = getDocumentsUrl()
     for asset in assetpath {
         assetFolder = assetFolder.appendingPathComponent(asset, isDirectory: true)
