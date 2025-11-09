@@ -14,12 +14,14 @@ internal func getDocumentsUrl()->URL {
     }
 
 
-public func getAssetUrl(assetpath: [String], type: String) -> URL {
+public func getAssetUrl(assetpath: [String], type: String? = nil) -> URL {
     var assetFolder = getDocumentsUrl()
     for asset in assetpath {
         assetFolder = assetFolder.appendingPathComponent(asset, isDirectory: true)
     }
-    assetFolder = assetFolder.appendingPathComponent(type, isDirectory: true)
+    if let type = type {
+        assetFolder = assetFolder.appendingPathComponent(type, isDirectory: true)
+    }
     if !FileManager.default.fileExists(atPath: assetFolder.path) {
         print("creating asset folder")
         return createAssetFolder(folder: assetFolder)
