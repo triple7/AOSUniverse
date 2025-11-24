@@ -61,7 +61,7 @@ public func fileIsCached(path: [String]) -> Bool {
     return FileManager.default.fileExists(atPath: assetPath.path())
 }
 
-internal func createAssetFolderByArray(path: [String]) -> URL {
+public func createAssetFolderByArray(path: [String]) -> URL {
     let documents = getDocumentsUrl()
     let folder = documents.appendingPathComponent(path.joined(separator: "/"), isDirectory: true)
 
