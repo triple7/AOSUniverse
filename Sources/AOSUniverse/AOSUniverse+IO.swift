@@ -56,6 +56,22 @@ public func fileIsCached(assetType: AssetType, aosType: AOSType, fileName: Strin
     return FileManager.default.fileExists(atPath: assetPath.appendingPathComponent(fileName).path())
 }
 
+internal func createAssetFolderByArray(path: [String]) -> URL {
+    let documents = getDocumentsUrl()
+    let folder = documents.appendingPathComponent(path.joined(separator: "/"), isDirectory: true)
+
+    do {
+        try FileManager.default.createDirectory(
+            at: folder,
+            withIntermediateDirectories: true,
+            attributes: nil
+        )
+        return folder
+    } catch {
+        print("createAssetFolder: \(error.localizedDescription)")
+        return folder   // return best-effort URL instead of crashing
+    }
+}
 
 internal func createAssetFolder(folder: URL) -> URL {
     do {
