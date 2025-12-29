@@ -57,7 +57,7 @@ public func fileIsCached(assetType: AssetType, aosType: AOSType, fileName: Strin
 }
 
 public func fileIsCached(path: [String]) -> Bool {
-    var assetPath = getDocumentsUrl().appendingPathComponent(path.joined(separator: "/"), isDirectory: false)
+    let assetPath = getDocumentsUrl().appendingPathComponent(path.joined(separator: "/"), isDirectory: false)
     return FileManager.default.fileExists(atPath: assetPath.path())
 }
 
