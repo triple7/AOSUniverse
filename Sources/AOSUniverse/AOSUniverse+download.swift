@@ -294,5 +294,23 @@ if !gotError {
         })
 
     }
-        
+
+    func downloadAssetData(
+        path: [String],
+        completion: @escaping (Data) -> Void
+    ) {
+        let pathSufgfix = path.joined(separator: "/")
+        let urlString = "\(self.baseUrl)/\(pathSufgfix)"
+        guard let url = URL(string: urlString) else {
+            print("❌ Invalid URL:", urlString)
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if self.requestIsValid(error: error, response: response) {
+                completion(data!)
+            }
+        }
+        task.resume()
+    }
             } // extension

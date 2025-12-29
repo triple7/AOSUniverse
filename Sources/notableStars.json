@@ -1,0 +1,283 @@
+[
+  {
+    "name": "Sirius",
+    "hip": "32349",
+    "gaia": "2947050466539722752",
+    "description": "Brightest star in the night sky; nearby A-type star with a white dwarf companion."
+  },
+  {
+    "name": "Canopus",
+    "hip": "30438",
+    "gaia": "4783735716481643136",
+    "description": "Second-brightest star; bright F-type giant used extensively for calibration."
+  },
+  {
+    "name": "Alpha Centauri A",
+    "hip": "71683",
+    "gaia": "5853498713190525696",
+    "description": "Nearest Sun-like star; part of the Alpha Centauri triple system."
+  },
+  {
+    "name": "Alpha Centauri B",
+    "hip": "71681",
+    "gaia": "5853498713190548864",
+    "description": "K-class companion to Alpha Centauri A; important for exoplanet searches."
+  },
+  {
+    "name": "Proxima Centauri",
+    "gaia": "5853498713190550144",
+    "description": "Closest known star to the Sun; major target for exoplanet and habitability studies."
+  },
+  {
+    "name": "Arcturus",
+    "hip": "69673",
+    "gaia": "4447646325728013312",
+    "description": "Nearby red giant; extremely luminous and widely studied in stellar evolution research."
+  },
+  {
+    "name": "Vega",
+    "hip": "91262",
+    "gaia": "458074318161353728",
+    "description": "A0 star historically used as a photometric zero point; highly observed."
+  },
+  {
+    "name": "Capella",
+    "hip": "24608",
+    "gaia": "197004972051122688",
+    "description": "Nearby bright giant binary; used frequently in stellar astrophysics."
+  },
+  {
+    "name": "Rigel",
+    "hip": "24436",
+    "gaia": "3013353323120468864",
+    "description": "Blue supergiant in Orion; one of the most luminous stars visible to the naked eye."
+  },
+  {
+    "name": "Betelgeuse",
+    "hip": "27989",
+    "gaia": "2932100664742356608",
+    "description": "Red supergiant with dramatic variability; monitored for possible pre-supernova signals."
+  },
+  {
+    "name": "Procyon",
+    "hip": "37279",
+    "gaia": "3134748868752572160",
+    "description": "Nearby F-type star with a white dwarf companion; used in astrophysical calibrations."
+  },
+  {
+    "name": "Aldebaran",
+    "hip": "21421",
+    "gaia": " TaurusBrightStar", 
+    "description": "Bright giant star in Taurus; major target for variability and exoplanet searches."
+  },
+  {
+    "name": "Spica",
+    "hip": "65474",
+    "gaia": "",
+    "description": "Massive and close binary system; heavily studied through spectroscopy."
+  },
+  {
+    "name": "Fomalhaut",
+    "hip": "113368",
+    "gaia": "2451051159382863104",
+    "description": "Nearby A-type star with a prominent debris disk; central to exoplanet research."
+  },
+  {
+    "name": "Antares",
+    "hip": "80763",
+    "gaia": "",
+    "description": "Red supergiant with complex mass loss; major target for massive-star studies."
+  },
+  {
+    "name": "Altair",
+    "hip": "97649",
+    "gaia": "",
+    "description": "Nearby fast-rotating A-type star exhibiting gravity darkening."
+  },
+  {
+    "name": "Deneb",
+    "hip": "102098",
+    "gaia": "",
+    "description": "One of the most luminous stars known; apex of the Summer Triangle."
+  },
+  {
+    "name": "Barnard's Star",
+    "hip": "87937",
+    "gaia": "",
+    "description": "High proper-motion red dwarf; extremely well monitored for exoplanets."
+  },
+  {
+    "name": "Pollux",
+    "hip": "37826",
+    "gaia": "",
+    "description": "K-type giant and confirmed exoplanet host."
+  },
+  {
+    "name": "Castor",
+    "hip": "36850",
+    "gaia": "",
+    "description": "Triple star system, historically important to binary-star studies."
+  },
+  {
+    "name": "Regulus",
+    "hip": "49669",
+    "gaia": "",
+    "description": "Rapidly rotating B-type star; heavily studied for stellar oblateness."
+  },
+  {
+    "name": "Shaula",
+    "hip": "85927",
+    "gaia": "",
+    "description": "Bright B-type system at the tail of Scorpius."
+  },
+  {
+    "name": "Bellatrix",
+    "hip": "25336",
+    "gaia": "",
+    "description": "Blue giant; one of Orion’s main stars, well observed."
+  },
+  {
+    "name": "Mimosa",
+    "hip": "60718",
+    "gaia": "",
+    "description": "Bright star in Crux; frequently used in studies of blue giants."
+  },
+  {
+    "name": "Acrux",
+    "hip": "60718",
+    "gaia": "",
+    "description": "Brightest star in Crux; important in southern-sky observations."
+  },
+  {
+    "name": "Elnath",
+    "hip": "25428",
+    "gaia": "",
+    "description": "Bright B-type giant; reference point in Taurus."
+  },
+  {
+    "name": "Alnitak",
+    "hip": "26727",
+    "gaia": "",
+    "description": "Massive blue supergiant; part of Orion’s Belt."
+  },
+  {
+    "name": "Alnilam",
+    "hip": "26311",
+    "gaia": "",
+    "description": "Extremely luminous blue supergiant; middle star of Orion’s Belt."
+  },
+  {
+    "name": "Mintaka",
+    "hip": "25930",
+    "gaia": "",
+    "description": "Multiple star system in Orion’s Belt."
+  },
+  {
+    "name": "Sadr",
+    "hip": "100453",
+    "gaia": "",
+    "description": "Bright F8 supergiant in the heart of Cygnus."
+  },
+  {
+    "name": "Alphard",
+    "hip": "44816",
+    "gaia": "",
+    "description": "K-type giant; solitary and heavily studied for stellar chemistry."
+  },
+  {
+    "name": "Nunki",
+    "hip": "92855",
+    "gaia": "",
+    "description": "Bright B-type star in Sagittarius."
+  },
+  {
+    "name": "Zeta Puppis",
+    "hip": "39429",
+    "gaia": "",
+    "description": "Extremely luminous O-type supergiant with strong stellar winds."
+  },
+  {
+    "name": "Naos",
+    "hip": "39429",
+    "gaia": "",
+    "description": "Massive O-type supergiant; one of the hottest visible stars."
+  },
+  {
+    "name": "Adhara",
+    "hip": "33579",
+    "gaia": "",
+    "description": "Bright B-type giant; major calibration star."
+  },
+  {
+    "name": "Mirfak",
+    "hip": "15863",
+    "gaia": "",
+    "description": "Bright supergiant in Perseus; part of the Alpha Persei cluster."
+  },
+  {
+    "name": "Alpheratz",
+    "hip": "677",
+    "gaia": "",
+    "description": "Bright A/B-type binary at the corner of Andromeda."
+  },
+  {
+    "name": "Gacrux",
+    "hip": "61084",
+    "gaia": "",
+    "description": "Bright red giant marking the top of the Southern Cross."
+  },
+  {
+    "name": "Kochab",
+    "hip": "72607",
+    "gaia": "",
+    "description": "Orange giant; historical pole star."
+  },
+  {
+    "name": "Pherkad",
+    "hip": "75097",
+    "gaia": "",
+    "description": "Companion to Kochab; part of Ursa Minor."
+  },
+  {
+    "name": "Rasalhague",
+    "hip": "86032",
+    "gaia": "",
+    "description": "Bright A-type giant in Ophiuchus."
+  },
+  {
+    "name": "Sirius B",
+    "hip": "",
+    "gaia": "",
+    "description": "White dwarf companion to Sirius A; heavily studied in stellar remnant research."
+  },
+  {
+    "name": "Altinak",
+    "hip": "26727",
+    "gaia": "",
+    "description": "Part of Orion's belt; massive multiple system."
+  },
+  {
+    "name": "Saiph",
+    "hip": "26311",
+    "gaia": "",
+    "description": "Bright supergiant in Orion."
+  },
+  {
+    "name": "Mu Cephei",
+    "hip": "",
+    "gaia": "",
+    "description": "Massive red hypergiant; known as the Garnet Star."
+  },
+  {
+    "name": "RW Cephei",
+    "hip": "",
+    "gaia": "",
+    "description": "Enormous red supergiant with extreme variability."
+  },
+  {
+    "name": "VY Canis Majoris",
+    "hip": "",
+    "gaia": "",
+    "description": "One of the largest known stars; major target for massive-star evolution."
+  }
+]
