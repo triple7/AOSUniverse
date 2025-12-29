@@ -295,7 +295,7 @@ if !gotError {
 
     }
 
-    func downloadAssetData(
+    public func downloadAssetData(
         path: [String],
         completion: @escaping (Data) -> Void
     ) {
